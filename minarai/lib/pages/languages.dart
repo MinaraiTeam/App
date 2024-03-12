@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:minarai/enums/assets.dart';
 import 'package:minarai/other/appdata.dart';
+import 'package:minarai/text/ui_text_manager.dart';
 import 'package:provider/provider.dart';
 
 class LanguagePage extends StatefulWidget {
@@ -20,14 +22,14 @@ class _LanguagePageState extends State<LanguagePage> {
       body: Center(
           child: Row(
             children: [
-               LanguageButton(
-            text: 'Comenzar',
-            imageAsset: 'assets/images/splash.png',
-            onPressed: () {
-              // Acción a realizar al hacer clic en el botón
-              print('Botón presionado');
-            },
-          ),
+              LanguageButton(
+                  text: uiManager.ui['languages_es'],
+                  imageAsset: Assets.flagEs,
+                  onPressed: () {
+                    // Acción a realizar al hacer clic en el botón
+                    print('Botón presionado');
+                  },
+              ),
             ],
           )
         ),

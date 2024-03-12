@@ -1,7 +1,5 @@
-
 class UiTextManager {
-
-  Map<String, String> ui = new Map<String,String>();
+  Map<String, String> ui = Map<String, String>();
 
   UiTextManager() {
     loadUiInfo();
@@ -11,5 +9,7 @@ class UiTextManager {
     //Buttons
     ui['languages_es'] = 'Español';
     ui['languages_jp'] = '日本語';
+    ui['category_es'] = 'Categorias';
+    ui['category_jp'] = '';
   }
 }
