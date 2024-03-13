@@ -1,4 +1,4 @@
 class Assets {
-  static const flagEs = 'assets/images/flag_es.png';
-  static const flagJP = 'assets/images/flag_jp.png';
+  static const fontEs = 'assets/fonts/es.ttf';
+  static const fontJp = 'assets/fonts/es.ttf';
 }

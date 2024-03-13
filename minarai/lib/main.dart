@@ -21,10 +21,7 @@ void main() async {
     sleep(const Duration(seconds: 1));
     FlutterNativeSplash.remove();
   } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    WidgetsFlutterBinding.ensureInitialized();
-    await windowManager.ensureInitialized();
-    WindowManager.instance.setMinimumSize(const Size(400, 700));
-    WindowManager.instance.setMaximumSize(const Size(400, 700));
+
   }
 
   runApp(ChangeNotifierProvider(

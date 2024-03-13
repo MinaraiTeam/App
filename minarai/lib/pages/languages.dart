@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:minarai/enums/assets.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:provider/provider.dart';
@@ -13,41 +12,33 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-
   @override
   Widget build(BuildContext context) {
     AppData appData = Provider.of<AppData>(context);
 
     return Scaffold(
       body: Center(
-          child: Row(
-            children: [
-              LanguageButton(
-                  text: uiManager.ui['languages_es'],
-                  imageAsset: Assets.flagEs,
-                  onPressed: () {
-                    // Acción a realizar al hacer clic en el botón
-                    print('Botón presionado');
-                  },
-              ),
-            ],
-          )
-        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LanguageButton(lang: 'es', data: appData),
+            SizedBox(width: 16,),
+            LanguageButton(lang: 'jp', data: appData)
+          ],
+        )
+      ),
     );
   }
-
-  
 }
 
 class LanguageButton extends StatelessWidget {
-  final String text;
-  final String imageAsset;
-  final VoidCallback? onPressed;
+  final String lang;
+  final AppData data;
 
   const LanguageButton({
-    required this.text,
-    required this.imageAsset,
-    this.onPressed,
+    required this.lang,
+    required this.data,
   });
 
   @override
@@ -57,7 +48,7 @@ class LanguageButton extends StatelessWidget {
       elevation: 4.0,
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
-        onTap: onPressed,
+        onTap: () => data.changeLanguage(lang),
         child: Container(
           padding: EdgeInsets.all(12.0),
           decoration: BoxDecoration(
@@ -69,17 +60,18 @@ class LanguageButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                imageAsset,
+                'assets/images/flag_$lang.png',
                 width: 64.0,
                 height: 64.0,
               ),
               SizedBox(height: 8.0),
               Text(
-                text,
+                UiTextManager.uiT.ui['languages_$lang'] ?? '',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'es'
                 ),
               ),
             ],
