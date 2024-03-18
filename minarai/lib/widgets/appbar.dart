@@ -24,12 +24,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       title: GestureDetector(
+        child: Container(
           child: Image.asset(
             appData.getFlagImg(appData.language),
             width: Config.iconW,
             height: Config.iconY,
           ),
-          onTap: () => appData.changePage(AppPages.languages),
+        ),
+        onTap: () => appData.changePage(AppPages.languages),
       ),
       actions: [
         Container(
@@ -39,7 +41,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               Icons.settings,
               size: Config.iconW,
             ),
-            onPressed: () {},
+            onPressed: () {
+              appData.changePage(AppPages.configuration);
+            },
           ),
         ),
       ],
