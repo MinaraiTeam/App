@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/assets.dart';
+import 'package:minarai/enums/config.dart';
+import 'package:minarai/enums/theme_colors.dart';
+import 'package:minarai/other/article.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 
 class AppData with ChangeNotifier {
@@ -9,6 +12,7 @@ class AppData with ChangeNotifier {
   String language = 'es'; //[es, jp]
   String font = 'es'; //[es.ttf, jp.ttf]
   UiTextManager uiText = UiTextManager();
+  List<Article> latestArticles = [];
 
   //Functions
   ///Change App Language
@@ -34,5 +38,25 @@ class AppData with ChangeNotifier {
   ///Get the flag Path
   String getFlagImg(String lang) {
     return 'assets/images/flag_$lang.png';
+  }
+
+  ///Change app Theme
+  void changeTheme(Themes t) {
+    switch (t) {
+      case Themes.light:
+        Config.backgroundColor = ThemeColors.wBackground;
+        Config.secondaryColor = ThemeColors.wSecondary;
+        Config.fontText = ThemeColors.wFontText;
+        Config.borderColor = ThemeColors.wBorder;
+        break;
+
+      case Themes.dark:
+        Config.backgroundColor = ThemeColors.bBackground;
+        Config.secondaryColor = ThemeColors.bSecondary;
+        Config.fontText = ThemeColors.bFontText;
+        Config.borderColor = ThemeColors.bBorder;
+        break;
+      default:
+    }
   }
 }

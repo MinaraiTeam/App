@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
     AppData data = Provider.of<AppData>(context);
 
     return Scaffold(
+      backgroundColor: Config.backgroundColor,
       appBar: MyAppBar(),
       body: Container(
         padding: EdgeInsets.only(left: 16),
@@ -32,11 +33,13 @@ class _HomePageState extends State<HomePage> {
             Text(
               UiTextManager.uiT.ui['category_${data.language}'],
               style:
-                  TextStyle(fontSize: Config.h1, fontWeight: FontWeight.bold),
+                  TextStyle(fontSize: Config.h1, fontWeight: FontWeight.bold, color: Config.fontText),
             ),
             const SizedBox(
               height: 8,
             ),
+
+            //Category Widgets
             Container(
                 height: 170,
                 child: ListView.builder(
@@ -54,7 +57,20 @@ class _HomePageState extends State<HomePage> {
             Text(
               UiTextManager.uiT.ui['latest_${data.language}'],
               style:
-                  TextStyle(fontSize: Config.h1, fontWeight: FontWeight.bold),
+                  TextStyle(fontSize: Config.h1, fontWeight: FontWeight.bold, color: Config.fontText),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+
+            //Latest Articles
+            Container(
+              height: 500,
+              child: ListView.builder(
+                itemCount: data.latestArticles.length,
+                itemBuilder:(context, index) {
+                
+              },),
             )
           ],
         ),

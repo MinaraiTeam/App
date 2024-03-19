@@ -52,7 +52,7 @@ class categoryContainer extends StatelessWidget {
               Container(
                 height: Config.categoryContaineH * 0.79 - 0.300,
                 child: Image.asset(
-                  data.getFlagImg(data.language),
+                  Assets.categoryImages[index],
                   width: 800,
                   height: 800,
                 ),

@@ -14,13 +14,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     AppData appData = Provider.of<AppData>(context);
 
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Config.secondaryColor,
       elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(10),
         ),
-        side: BorderSide(color: Colors.grey[300]!),
+        side: BorderSide(color: Config.borderColor),
       ),
       centerTitle: true,
       title: GestureDetector(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:minarai/enums/app_pages.dart';
+import 'package:minarai/enums/theme_colors.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/pages/article.dart';
 import 'package:minarai/pages/category.dart';
@@ -13,16 +14,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
-
   //If its on mobile it will show the SplashScreen
   if (Platform.isIOS || Platform.isAndroid) {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     sleep(const Duration(seconds: 1));
     FlutterNativeSplash.remove();
-  } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-
-  }
+  } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {}
 
   runApp(ChangeNotifierProvider(
     create: (context) => AppData(),
@@ -33,6 +31,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //Set The AppColorTheme
+    final AppData data = Provider.of<AppData>(context);
+    data.changeTheme(Themes.light);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Consumer<AppData>(

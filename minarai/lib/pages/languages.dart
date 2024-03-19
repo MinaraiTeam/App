@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class _LanguagePageState extends State<LanguagePage> {
     AppData appData = Provider.of<AppData>(context);
 
     return Scaffold(
+      backgroundColor: Config.backgroundColor,
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
