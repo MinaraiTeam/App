@@ -51,11 +51,12 @@ class categoryContainer extends StatelessWidget {
               // Category photo
               Container(
                 height: Config.categoryContaineH * 0.79 - 0.300,
-                child: Image.asset(
-                  Assets.categoryImages[index],
-                  width: 800,
-                  height: 800,
-                ),
+                child: ClipRRect(
+                  child: Image.network(
+                    'https://via.placeholder.com/${MediaQuery.of(context).size.width.round()}x${MediaQuery.of(context).size.height.round()}',
+                    fit: BoxFit.cover,
+                  ),
+                )
               ),
             ],
           ),

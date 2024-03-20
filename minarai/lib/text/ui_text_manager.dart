@@ -18,5 +18,8 @@ class UiTextManager {
     //Latest
     ui['latest_es'] = 'Últimos artículos';
     ui['latest_jp'] = '最新の記事';
+    //Most Viewed
+    ui['mostviewed_es'] = 'Más Vistos';
+    ui['mostviewed_jp'] = '最も見られた';
   }
 }

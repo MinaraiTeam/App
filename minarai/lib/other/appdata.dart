@@ -13,6 +13,7 @@ class AppData with ChangeNotifier {
   String font = 'es'; //[es.ttf, jp.ttf]
   UiTextManager uiText = UiTextManager();
   List<Article> latestArticles = [];
+  List<Article> mostViewedArticles = [];
 
   //Functions
   ///Change App Language
@@ -46,6 +47,7 @@ class AppData with ChangeNotifier {
       case Themes.light:
         Config.backgroundColor = ThemeColors.wBackground;
         Config.secondaryColor = ThemeColors.wSecondary;
+        Config.secondaryFontColor = ThemeColors.wSecFont;
         Config.fontText = ThemeColors.wFontText;
         Config.borderColor = ThemeColors.wBorder;
         break;
@@ -53,10 +55,42 @@ class AppData with ChangeNotifier {
       case Themes.dark:
         Config.backgroundColor = ThemeColors.bBackground;
         Config.secondaryColor = ThemeColors.bSecondary;
+        Config.secondaryFontColor = ThemeColors.bSecFont;
         Config.fontText = ThemeColors.bFontText;
         Config.borderColor = ThemeColors.bBorder;
         break;
       default:
     }
   }
+
+  ///Poblate article list
+  void poblateArticleList() {
+    latestArticles.add(Article(
+        article_id: 0,
+        category: 0,
+        user_id: 1,
+        title: "Festival de las Muñecas ----------------------------------------------------",
+        preview_image: '',
+        content: 'hh',
+        language: Country.es,
+        annex: '',
+        country: Country.jp,
+        date: '10/10/2010',
+        views: 8));
+
+    mostViewedArticles.add(Article(
+        article_id: 0,
+        category: 0,
+        user_id: 1,
+        title: "Festival de las Muñecas ----------------------------------------------------",
+        preview_image: '',
+        content: 'hh',
+        language: Country.es,
+        annex: '',
+        country: Country.jp,
+        date: '10/10/2010',
+        views: 8));
+  }
+
+  
 }

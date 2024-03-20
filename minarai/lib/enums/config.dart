@@ -9,7 +9,8 @@ class Config {
   //Fonts
   static const double h1 = 25;
   static const double h2 = 19;
-  static const double h3 = 15;
+  static const double h3 = 17;
+  static const double hNormal = 12;
 
   //Category Container
   static const double categoryContainerW = 180;
@@ -18,6 +19,7 @@ class Config {
   //ColorTheme
   static Color backgroundColor = ThemeColors.wBackground;
   static Color secondaryColor = ThemeColors.wSecondary;
+  static Color secondaryFontColor = ThemeColors.wSecFont;
   static Color fontText = ThemeColors.wFontText;
   static Color borderColor = ThemeColors.wBorder;
 }

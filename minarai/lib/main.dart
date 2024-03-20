@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:minarai/enums/app_pages.dart';
@@ -20,7 +21,9 @@ void main() async {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     sleep(const Duration(seconds: 1));
     FlutterNativeSplash.remove();
-  } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {}
+  } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    //WindowManager.instance.setMinimumSize(const Size(1200, 600));
+  }
 
   runApp(ChangeNotifierProvider(
     create: (context) => AppData(),
