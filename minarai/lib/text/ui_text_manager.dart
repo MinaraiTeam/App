@@ -9,6 +9,11 @@ class UiTextManager {
     //LanguageButton
     ui['languages_es'] = 'Español';
     ui['languages_jp'] = '日本語';
+    //Countries
+    ui['country_es_es'] = 'España';
+    ui['country_es_jp'] = 'スペイン';
+    ui['country_jp_es'] = 'Japón';
+    ui['country_jp_jp'] = '日本';
     //Titles
     ui['category_es'] = 'Categorías';
     ui['category_jp'] = 'カテゴリー';

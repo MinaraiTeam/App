@@ -4,6 +4,7 @@ import 'package:minarai/enums/assets.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/enums/theme_colors.dart';
 import 'package:minarai/other/article.dart';
+import 'package:minarai/pages/subpages/lobby.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 
 class AppData with ChangeNotifier {
@@ -11,9 +12,11 @@ class AppData with ChangeNotifier {
   AppPages currentPage = AppPages.languages;
   String language = 'es'; //[es, jp]
   String font = 'es'; //[es.ttf, jp.ttf]
+  int selectedCountry = 0; //[spain, japan]
   UiTextManager uiText = UiTextManager();
   List<Article> latestArticles = [];
   List<Article> mostViewedArticles = [];
+  Widget subPage = Lobby();
 
   //Functions
   ///Change App Language
@@ -36,11 +39,6 @@ class AppData with ChangeNotifier {
     notifyListeners();
   }
 
-  ///Get the flag Path
-  String getFlagImg(String lang) {
-    return 'assets/images/flag_$lang.png';
-  }
-
   ///Change app Theme
   void changeTheme(Themes t) {
     switch (t) {
@@ -50,6 +48,7 @@ class AppData with ChangeNotifier {
         Config.secondaryFontColor = ThemeColors.wSecFont;
         Config.fontText = ThemeColors.wFontText;
         Config.borderColor = ThemeColors.wBorder;
+        Config.selectedColor = ThemeColors.wSelected;
         break;
 
       case Themes.dark:
@@ -63,13 +62,25 @@ class AppData with ChangeNotifier {
     }
   }
 
+  ///Change Country
+  void changeCountry(int index) {
+    selectedCountry = index;
+    notifyListeners();
+  }
+
+  ///Get the flag Path
+  String getFlagImg(String lang) {
+    return 'assets/images/flag_$lang.png';
+  }
+
   ///Poblate article list
   void poblateArticleList() {
     latestArticles.add(Article(
         article_id: 0,
         category: 0,
         user_id: 1,
-        title: "Festival de las Muñecas ----------------------------------------------------",
+        title:
+            "Festival de las Muñecas ----------------------------------------------------",
         preview_image: '',
         content: 'hh',
         language: Country.es,
@@ -82,7 +93,8 @@ class AppData with ChangeNotifier {
         article_id: 0,
         category: 0,
         user_id: 1,
-        title: "Festival de las Muñecas ----------------------------------------------------",
+        title:
+            "Festival de las Muñecas ----------------------------------------------------",
         preview_image: '',
         content: 'hh',
         language: Country.es,
@@ -91,6 +103,4 @@ class AppData with ChangeNotifier {
         date: '10/10/2010',
         views: 8));
   }
-
-  
 }

@@ -36,4 +36,6 @@ class Article {
     required this.date,
     required this.views,
   });
+
+  
 }

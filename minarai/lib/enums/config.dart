@@ -22,4 +22,5 @@ class Config {
   static Color secondaryFontColor = ThemeColors.wSecFont;
   static Color fontText = ThemeColors.wFontText;
   static Color borderColor = ThemeColors.wBorder;
+  static Color selectedColor = ThemeColors.wSelected;
 }
