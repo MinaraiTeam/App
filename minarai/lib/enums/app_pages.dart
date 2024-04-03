@@ -2,7 +2,11 @@
 enum AppPages {
   languages,
   home, 
-  category,
-  article,
   configuration
+}
+
+enum AppSubPages {
+  lobby,
+  categorypage,
+  articlepage
 }

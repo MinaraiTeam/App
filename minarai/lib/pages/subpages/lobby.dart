@@ -87,6 +87,7 @@ class Title extends StatelessWidget {
   }
 }
 
+
 ///Container for the sections
 class SectionContainer extends StatelessWidget {
   const SectionContainer({
@@ -108,7 +109,6 @@ class SectionContainer extends StatelessWidget {
           //Article Container
           return ArticleContainer(
             article: infoList[index],
-            index: index,
           );
         },
       ),

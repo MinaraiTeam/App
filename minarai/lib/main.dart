@@ -6,7 +6,6 @@ import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/theme_colors.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/pages/article.dart';
-import 'package:minarai/pages/category.dart';
 import 'package:minarai/pages/configuration.dart';
 import 'package:minarai/pages/home.dart';
 import 'package:minarai/pages/languages.dart';
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //Set The AppColorTheme
     final AppData data = Provider.of<AppData>(context);
-    data.changeTheme(Themes.light);
+    data.changeTheme(Themes.dark);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -52,10 +51,6 @@ class MyApp extends StatelessWidget {
         return LanguagePage();
       case AppPages.home:
         return HomePage();
-      case AppPages.category:
-        return CategoryPage();
-      case AppPages.article:
-        return ArticlePage();
       case AppPages.configuration:
         return ConfigurationPage();
       default:

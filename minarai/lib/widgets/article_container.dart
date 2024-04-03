@@ -6,10 +6,9 @@ import 'package:minarai/other/appdata.dart';
 import 'package:minarai/other/article.dart';
 
 class ArticleContainer extends StatelessWidget {
-  const ArticleContainer({super.key, required this.article, required this.index});
+  const ArticleContainer({super.key, required this.article});
 
   final Article article;
-  final int index;
 
   @override
   Widget build(BuildContext context) {

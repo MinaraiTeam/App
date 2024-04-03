@@ -24,11 +24,10 @@ class _HomePageState extends State<HomePage> {
     data.poblateArticleList();
 
     return Scaffold(
-      backgroundColor: Config.backgroundColor,
-      appBar: MyAppBar(),
-      body: data.subPage,
-      bottomNavigationBar:  NavigationBar(data: data)
-    );
+        backgroundColor: Config.backgroundColor,
+        appBar: MyAppBar(),
+        body: data.subPage,
+        bottomNavigationBar: NavigationBar(data: data));
   }
 }
 
@@ -42,25 +41,72 @@ class NavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Image.asset('assets/images/flag_es.png', width: 64, height: 64,),
-          label: UiTextManager.uiT.ui['country_es_${data.language}'],
-          backgroundColor:Colors.amber 
-        ),
-        BottomNavigationBarItem(
-          icon: Image.asset('assets/images/flag_jp.png', width: 64, height: 64,),
-          label: UiTextManager.uiT.ui['country_jp_${data.language}'],
-          backgroundColor: data.selectedCountry == 1 ? Config.selectedColor : Colors.transparent
-        )
-      ],
-      currentIndex: data.selectedCountry,
-      onTap: data.changeCountry,
-      backgroundColor: Config.secondaryColor,
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.1,
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Config.borderColor)),
+        color: Config.secondaryColor
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // First navigation item container
+          GestureDetector(
+            onTap: () =>
+                data.changeCountry(0),
+            child: Container(
+              width: MediaQuery.of(context).size.width/2,
+              height: MediaQuery.of(context).size.height,
+              color: data.selectedCountry == 0
+                  ? Config.selectedColor
+                  : Colors.transparent,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/flag_es.png',
+                      width: 40, height: 40),
+                  Text(
+                    UiTextManager.uiT.ui['country_es_${data.language}'],
+                    style: TextStyle(
+                      color: data.selectedCountry == 0 ? Config.fontText : Config.secondaryFontColor,
+                      fontSize: data.selectedCountry == 0 ? Config.h4 : Config.hNormal
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Second navigation item container
+          GestureDetector(
+            onTap: () =>
+                data.changeCountry(1),
+            child: Container(
+              width: MediaQuery.of(context).size.width/2,
+              height: MediaQuery.of(context).size.height,
+              color: data.selectedCountry == 1
+                  ? Config.selectedColor
+                  : Colors.transparent,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/flag_jp.png',
+                      width: 40, height: 40),
+                  Text(
+                    UiTextManager.uiT.ui['country_jp_${data.language}'],
+                    style: TextStyle(
+                      color: data.selectedCountry == 1 ? Config.fontText : Config.secondaryFontColor,
+                      fontSize: data.selectedCountry == 1 ? Config.h4 : Config.hNormal
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-
