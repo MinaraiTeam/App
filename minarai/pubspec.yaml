@@ -38,6 +38,7 @@ dependencies:
   flutter_native_splash: ^2.3.11
   provider: ^6.1.2
   window_manager: ^0.2.7
+  flutter_datetime_picker_plus: ^2.1.0
 
 dev_dependencies:
   flutter_test:

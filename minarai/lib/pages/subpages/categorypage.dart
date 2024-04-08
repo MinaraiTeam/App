@@ -3,6 +3,7 @@ import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/article_container.dart';
+import 'package:minarai/widgets/filter_button.dart';
 import 'package:provider/provider.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -57,13 +58,20 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      UiTextManager.uiT.ui['categories_${data.language}']
-          [data.selectedCategory],
-      style: TextStyle(
-          fontSize: Config.h2,
-          fontWeight: FontWeight.bold,
-          color: Config.fontText),
+    return Container(
+      child: Row(
+        children: [
+          Text(
+            UiTextManager.uiT.ui['categories_${data.language}']
+                [data.selectedCategory],
+            style: TextStyle(
+                fontSize: Config.h2,
+                fontWeight: FontWeight.bold,
+                color: Config.fontText),
+          ),
+          FilterButton()
+        ],
+      ),
     );
   }
 }
