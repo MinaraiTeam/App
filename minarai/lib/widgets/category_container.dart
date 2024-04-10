@@ -73,7 +73,13 @@ class categoryContainer extends StatelessWidget {
     );
   }
 
-  void goToCatPage() {
-    data.selectCategory(index);
+  Future<void> goToCatPage() async {
+    if (!data.isCharging) {
+      data.isCharging = true;
+      data.selectCategory(index);
+      data.articleList.clear();
+      data.articleList = await data.getArticlesHttp((index+1).toString(), "*", 2,
+          data.language.toUpperCase(), data.countryName, "*", "ASC", "date");
+    }
   }
 }

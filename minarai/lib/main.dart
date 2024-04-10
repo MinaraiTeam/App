@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/theme_colors.dart';
 import 'package:minarai/other/appdata.dart';
-import 'package:minarai/pages/article.dart';
+import 'package:minarai/pages/article_page.dart';
 import 'package:minarai/pages/configuration.dart';
 import 'package:minarai/pages/home.dart';
 import 'package:minarai/pages/languages.dart';
@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //Set The AppColorTheme
     final AppData data = Provider.of<AppData>(context);
-    data.changeTheme(Themes.dark);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

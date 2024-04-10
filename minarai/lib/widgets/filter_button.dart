@@ -6,7 +6,7 @@ class FilterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        showFilterMenu(context);
+        //showFilterMenu(context);
       },
       icon: Icon(Icons.filter_alt_rounded),
     );
@@ -21,6 +21,8 @@ class FilterButton extends StatelessWidget {
     );
   }
 }
+
+
 
 class FilterMenu extends StatefulWidget {
   @override

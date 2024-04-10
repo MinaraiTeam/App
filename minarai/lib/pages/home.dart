@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     AppData data = Provider.of<AppData>(context);
-    data.poblateArticleList();
 
     return Scaffold(
         backgroundColor: Config.backgroundColor,

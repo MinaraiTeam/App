@@ -17,6 +17,10 @@ class Config {
   static const double categoryContainerW = 180;
   static const double categoryContaineH = 170;
 
+  //Article
+  static const double MAX_WIDH = 200;
+  static const double MAX_HEIGHT = MAX_WIDH-50;
+
   //ColorTheme
   static Color backgroundColor = ThemeColors.wBackground;
   static Color secondaryColor = ThemeColors.wSecondary;
