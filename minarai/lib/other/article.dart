@@ -24,18 +24,18 @@ class Article {
   late int views;
 
   //Constructor
-  Article({
-    required this.article_id,
-    required this.category_id,
-    required this.user_id,
-    required this.title,
-    required this.preview_image,
-    required this.content,
-    required this.language,
-    required this.annex,
-    required this.country,
-    required this.date,
-    required this.views,
-    required this.url
-  });
+  Article(
+      {required this.article_id,
+      required this.category_id,
+      required this.user_id,
+      required this.title,
+      required this.preview_image,
+      required this.content,
+      required this.language,
+      required this.annex,
+      required this.country,
+      required this.date,
+      required this.views,
+      required this.url});
+
 }

@@ -18,8 +18,8 @@ class Config {
   static const double categoryContaineH = 170;
 
   //Article
-  static const double MAX_WIDH = 200;
-  static const double MAX_HEIGHT = MAX_WIDH-50;
+  static const double MAX_WIDTH = 200;
+  static const double MAX_HEIGHT = MAX_WIDTH-50;
 
   //ColorTheme
   static Color backgroundColor = ThemeColors.wBackground;
@@ -28,4 +28,29 @@ class Config {
   static Color fontText = ThemeColors.wFontText;
   static Color borderColor = ThemeColors.wBorder;
   static Color selectedColor = ThemeColors.wSelected;
+
+
+
+  static void applyTheme(Themes t) {
+    switch (t) {
+      case Themes.light:
+        Config.backgroundColor = ThemeColors.wBackground;
+        Config.secondaryColor = ThemeColors.wSecondary;
+        Config.secondaryFontColor = ThemeColors.wSecFont;
+        Config.fontText = ThemeColors.wFontText;
+        Config.borderColor = ThemeColors.wBorder;
+        Config.selectedColor = ThemeColors.wSelected;
+        break;
+
+      case Themes.dark:
+        Config.backgroundColor = ThemeColors.bBackground;
+        Config.secondaryColor = ThemeColors.bSecondary;
+        Config.secondaryFontColor = ThemeColors.bSecFont;
+        Config.fontText = ThemeColors.bFontText;
+        Config.borderColor = ThemeColors.bBorder;
+        Config.selectedColor = ThemeColors.bSelected;
+        break;
+      default:
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:minarai/enums/assets.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/other/article.dart';
+import 'package:minarai/pages/article_page.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +80,8 @@ class ArticleContainer extends StatelessWidget {
           )),
       onTap: () {
         data.selectedArticle = data.articleList.indexOf(article);
-        data.changeSubPage(AppSubPages.articlepage);
+        data.changeSubPage(ArticlePage(article: article));
+        print("hu");
         data.forceNotifyListeners();
       },
     );

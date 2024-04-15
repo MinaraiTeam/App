@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
+import 'package:minarai/pages/subpages/lobby.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +57,7 @@ class LanguageButton extends StatelessWidget {
           if (!data.isCharging) {
             data.changeLanguage(lang);
             data.poblateArticleList();
-            data.changeSubPage(AppSubPages.lobby);
+            data.changeSubPage(Lobby(key: UniqueKey(),));
           }
         },
         child: Container(
