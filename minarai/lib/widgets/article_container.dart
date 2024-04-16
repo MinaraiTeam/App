@@ -42,7 +42,7 @@ class ArticleContainer extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
-                    article.preview_image,
+                    data.urlServer + article.preview_image,
                     fit: BoxFit.fitHeight,
                     height: MediaQuery.of(context).size.height,
                     width: 10, // Ancho deseado
@@ -81,7 +81,6 @@ class ArticleContainer extends StatelessWidget {
       onTap: () {
         data.selectedArticle = data.articleList.indexOf(article);
         data.changeSubPage(ArticlePage(article: article));
-        print("hu");
         data.forceNotifyListeners();
       },
     );

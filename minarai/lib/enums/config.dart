@@ -18,7 +18,7 @@ class Config {
   static const double categoryContaineH = 170;
 
   //Article
-  static const double MAX_WIDTH = 200;
+  static const double MAX_WIDTH = 400;
   static const double MAX_HEIGHT = MAX_WIDTH-50;
 
   //ColorTheme

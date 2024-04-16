@@ -32,9 +32,16 @@ class _ArticlePageState extends State<ArticlePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 10),
-                Image.network(
-                  widget.article.preview_image,
+                Container(
                   width: displayWidth,
+                  child: AspectRatio(
+                    aspectRatio: 2 / 1,
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/images/loading.gif',
+                      image: data.urlServer+widget.article.preview_image,
+                      fadeOutDuration: Duration(seconds: 1),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 5),
                 Container(
@@ -42,9 +49,19 @@ class _ArticlePageState extends State<ArticlePage> {
                   width: displayWidth,
                   color: Assets.categoriesColors[widget.article.category_id],
                 ),
-                SizedBox(height: 10),
-                Text(widget.article.title, style: TextStyle(color: Config.fontText, fontSize: Config.h2, fontWeight: FontWeight.bold),),
-                Text(widget.article.date, style: TextStyle(color: Config.fontText, fontSize: Config.hNormal-2),),
+                SizedBox(height: 20),
+                Text(
+                  widget.article.title,
+                  style: TextStyle(
+                      color: Config.fontText,
+                      fontSize: Config.h2,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  widget.article.date,
+                  style: TextStyle(
+                      color: Config.fontText, fontSize: Config.hNormal - 2),
+                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics:
@@ -61,6 +78,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     );
                   },
                 ),
+
               ],
             ),
           ),

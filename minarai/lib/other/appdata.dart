@@ -21,7 +21,7 @@ class AppData with ChangeNotifier {
   Widget subPage = Lobby();
   bool isCharging = false;
 
-  final String urlServer = "https://minarai.ieti.site:443/";
+  final String urlServer = "https://minarai.ieti.site:443";
   final String urlGetList = "/api/article/list";
   UiTextManager uiText = UiTextManager();
   List<Article> latestArticles = [];
@@ -62,13 +62,17 @@ class AppData with ChangeNotifier {
   void changeCountry(int index) {
     selectedCountry = index;
     countryName = index == 0 ? "ES" : "JP";
-    changeSubPage(Lobby(key: UniqueKey(),));
+    changeSubPage(Lobby(
+      key: UniqueKey(),
+    ));
     notifyListeners();
   }
 
   void selectCategory(int index) {
     selectedCategory = index;
-    changeSubPage(CategoryPage(key: UniqueKey(),));
+    changeSubPage(CategoryPage(
+      key: UniqueKey(),
+    ));
     notifyListeners();
   }
 
@@ -149,9 +153,19 @@ class AppData with ChangeNotifier {
 
   Widget checkIfImg(String content, double screenWidth) {
     if (content.startsWith("/")) {
-      return Center(child: Image.network(urlServer + content, width: screenWidth));
+      return Center(
+          child: AspectRatio(
+              aspectRatio: 2 / 1,
+              child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/images/loading.gif', 
+                  image: urlServer+content,
+                  fadeOutDuration: Duration(seconds: 1),
+              )
+          )
+      );
     } else {
-      return Center(child: Container(width: screenWidth/2, child: Text(content)));
+      return Center(
+          child: Container(width: screenWidth / 2, child: Text(content)));
     }
   }
 }
