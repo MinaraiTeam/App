@@ -7,11 +7,11 @@ class Config {
   static const double iconY = 32;
 
   //Fonts
-  static const double h1 = 25;
-  static const double h2 = 19;
-  static const double h3 = 17;
-  static const double h4 = 15;
-  static const double hNormal = 12;
+  static const double h1 = 28;
+  static const double h2 = 22;
+  static const double h3 = 19;
+  static const double h4 = 17;
+  static const double hNormal = 14;
 
   //Category Container
   static const double categoryContainerW = 180;

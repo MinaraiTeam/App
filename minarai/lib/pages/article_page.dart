@@ -24,63 +24,71 @@ class _ArticlePageState extends State<ArticlePage> {
         contentWidth < Config.MAX_WIDTH ? contentWidth : Config.MAX_WIDTH;
 
     return Scaffold(
+      backgroundColor: Config.backgroundColor,
       body: SafeArea(
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 10),
-                Container(
-                  width: displayWidth,
-                  child: AspectRatio(
-                    aspectRatio: 2 / 1,
-                    child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/images/loading.gif',
-                      image: data.urlServer+widget.article.preview_image,
-                      fadeOutDuration: Duration(seconds: 1),
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 10),
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: 300, // Max height
+                  maxWidth: 400, // Max width
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), // Border radius
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/loading.gif',
+                    image: data.urlServer + widget.article.preview_image,
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(seconds: 1),
+                    fadeOutDuration: Duration(seconds: 1),
                   ),
                 ),
-                SizedBox(height: 5),
-                Container(
-                  height: 5,
-                  width: displayWidth,
-                  color: Assets.categoriesColors[widget.article.category_id],
-                ),
-                SizedBox(height: 20),
-                Text(
-                  widget.article.title,
-                  style: TextStyle(
-                      color: Config.fontText,
-                      fontSize: Config.h2,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  widget.article.date,
-                  style: TextStyle(
-                      color: Config.fontText, fontSize: Config.hNormal - 2),
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics:
-                      NeverScrollableScrollPhysics(), // Since it's nested inside a SingleChildScrollView
-                  itemCount: widget.article.content.length,
-                  itemBuilder: (context, index) {
-                    return Center(
-                      // This will center the content horizontally
-                      child: Container(
-                        width: screenWidth,
-                        child: data.checkIfImg(
-                            widget.article.content[index], screenWidth),
-                      ),
-                    );
-                  },
-                ),
-
-              ],
-            ),
+              ),
+              SizedBox(height: 5),
+              Container(
+                height: 5,
+                width: displayWidth,
+                color: Assets.categoriesColors[widget.article.category_id],
+              ),
+              SizedBox(height: 15),
+              Text(
+                widget.article.title,
+                style: TextStyle(
+                    color: Config.fontText,
+                    fontSize: Config.h1,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                widget.article.date,
+                style: TextStyle(
+                    color: Config.fontText, fontSize: Config.hNormal - 1),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.article.content.length,
+                itemBuilder: (context, index) {
+                  return Center(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      width: screenWidth,
+                      child: data.checkIfImg(
+                          widget.article.content[index], screenWidth),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

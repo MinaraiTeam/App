@@ -16,6 +16,7 @@ class ArticleContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppData data = Provider.of<AppData>(context, listen: false);
+    
     return GestureDetector(
       child: Container(
           width: MediaQuery.of(context).size.width,
@@ -33,19 +34,19 @@ class ArticleContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 100.0,
-                height: 100.0,
+                height: 100,
+                width: 100,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.blue, // Color de ejemplo
+                  borderRadius: BorderRadius.circular(20), // Border radius
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    data.urlServer + article.preview_image,
-                    fit: BoxFit.fitHeight,
-                    height: MediaQuery.of(context).size.height,
-                    width: 10, // Ancho deseado
+                  borderRadius: BorderRadius.circular(20),
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/loading.gif',
+                    image: data.urlServer + article.preview_image,
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(seconds: 1),
+                    fadeOutDuration: Duration(seconds: 1),
                   ),
                 ),
               ),
@@ -59,7 +60,7 @@ class ArticleContainer extends StatelessWidget {
                     Text(
                       article.title,
                       style: TextStyle(
-                          fontSize: Config.h3,
+                          fontSize: Config.h4,
                           fontWeight: FontWeight.bold,
                           color: Config.fontText),
                       maxLines: 2,
@@ -69,7 +70,7 @@ class ArticleContainer extends StatelessWidget {
                     Text(
                       article.date,
                       style: TextStyle(
-                        fontSize: Config.hNormal,
+                        fontSize: Config.hNormal - 2,
                         color: Config.secondaryFontColor,
                       ),
                     ),

@@ -123,8 +123,8 @@ class AppData with ChangeNotifier {
         List<dynamic> data = jsonDecode(response.body)['data'];
         for (var a in data) {
           Article art = Article(
-              article_id: a['article_id'] - 1,
-              category_id: a['category_id'],
+              article_id: a['article_id'],
+              category_id: a['category_id']-1,
               user_id: a['user_id'],
               title: a['title'],
               preview_image: a['preview_image'],
@@ -154,18 +154,30 @@ class AppData with ChangeNotifier {
   Widget checkIfImg(String content, double screenWidth) {
     if (content.startsWith("/")) {
       return Center(
-          child: AspectRatio(
-              aspectRatio: 2 / 1,
-              child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/images/loading.gif', 
-                  image: urlServer+content,
-                  fadeOutDuration: Duration(seconds: 1),
-              )
-          )
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: 300, // Max height
+            maxWidth: 300, // Max width
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20), // Border radius
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: FadeInImage.assetNetwork(
+              placeholder:
+                  'assets/images/loading.gif', 
+              image: urlServer + content, 
+              fit: BoxFit.cover, 
+              fadeInDuration: Duration(seconds: 1), 
+              fadeOutDuration: Duration(seconds: 1), 
+            ),
+          ),
+        ),
       );
     } else {
       return Center(
-          child: Container(width: screenWidth / 2, child: Text(content)));
+          child: Container(width: screenWidth / 2, child: Text(content, style: TextStyle(fontSize: Config.hNormal, color: Config.secondaryFontColor),)));
     }
   }
 }
