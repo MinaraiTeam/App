@@ -20,6 +20,7 @@ class AppData with ChangeNotifier {
   int selectedArticle = 0;
   Widget subPage = Lobby();
   bool isCharging = false;
+  int selectedTheme = 0;
 
   final String urlServer = "https://minarai.ieti.site:443";
   final String urlGetList = "/api/article/list";
@@ -54,8 +55,9 @@ class AppData with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeTheme(Themes t) {
+  void changeTheme(Themes t, int themeId) {
     Config.applyTheme(t);
+    selectedTheme = themeId;
     notifyListeners();
   }
 
@@ -65,6 +67,7 @@ class AppData with ChangeNotifier {
     changeSubPage(Lobby(
       key: UniqueKey(),
     ));
+    poblateArticleList();
     notifyListeners();
   }
 
@@ -104,6 +107,8 @@ class AppData with ChangeNotifier {
       String order,
       String orderBy) async {
     isCharging = true;
+    notifyListeners();
+    
     List<Article> result = [];
     try {
       var response = await http.post(Uri.parse(urlServer + urlGetList),
@@ -124,7 +129,7 @@ class AppData with ChangeNotifier {
         for (var a in data) {
           Article art = Article(
               article_id: a['article_id'],
-              category_id: a['category_id']-1,
+              category_id: a['category_id'] - 1,
               user_id: a['user_id'],
               title: a['title'],
               preview_image: a['preview_image'],
@@ -165,19 +170,24 @@ class AppData with ChangeNotifier {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage.assetNetwork(
-              placeholder:
-                  'assets/images/loading.gif', 
-              image: urlServer + content, 
-              fit: BoxFit.cover, 
-              fadeInDuration: Duration(seconds: 1), 
-              fadeOutDuration: Duration(seconds: 1), 
+              placeholder: 'assets/images/loading.gif',
+              image: urlServer + content,
+              fit: BoxFit.cover,
+              fadeInDuration: Duration(seconds: 1),
+              fadeOutDuration: Duration(seconds: 1),
             ),
           ),
         ),
       );
     } else {
       return Center(
-          child: Container(width: screenWidth / 2, child: Text(content, style: TextStyle(fontSize: Config.hNormal, color: Config.secondaryFontColor),)));
+          child: Container(
+              width: screenWidth * 0.8,
+              child: Text(
+                content,
+                style: TextStyle(
+                    fontSize: Config.hNormal, color: Config.secondaryFontColor),
+              )));
     }
   }
 }

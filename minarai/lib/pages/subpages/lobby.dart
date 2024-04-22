@@ -8,6 +8,7 @@ import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/appbar.dart';
 import 'package:minarai/widgets/article_container.dart';
 import 'package:minarai/widgets/category_container.dart';
+import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
 class Lobby extends StatelessWidget {
@@ -18,17 +19,24 @@ class Lobby extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppData data = Provider.of<AppData>(context);
-
+    
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(left: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 24,),
-            Title(section: "category", language: data.language,),
-            const SizedBox(height: 8,),
-    
+            const SizedBox(
+              height: 24,
+            ),
+            Title(
+              section: "category",
+              language: data.language,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+
             //Category Widgets
             Container(
                 height: 170,
@@ -47,19 +55,30 @@ class Lobby extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-    
+
             //Latest Articles
-            Title(section: "latest", language: data.language,),
-            const SizedBox(height: 8,),
+            Title(
+              section: "latest",
+              language: data.language,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
             SectionContainer(infoList: data.latestArticles),
-    
+
             //Most Viewed
-            const SizedBox(height: 24,),
-            Title(section: "mostviewed", language: data.language,),
+            const SizedBox(
+              height: 24,
+            ),
+            Title(
+              section: "mostviewed",
+              language: data.language,
+            ),
             SectionContainer(infoList: data.mostViewedArticles),
             const SizedBox(
               height: 24,
             ),
+            ChargingPopup()
           ],
         ),
       ),
@@ -87,7 +106,6 @@ class Title extends StatelessWidget {
   }
 }
 
-
 ///Container for the sections
 class SectionContainer extends StatelessWidget {
   const SectionContainer({
@@ -102,9 +120,7 @@ class SectionContainer extends StatelessWidget {
     return Container(
       height: 300,
       child: ListView.builder(
-        itemCount: infoList.length > 2
-            ? 2
-            : infoList.length,
+        itemCount: infoList.length > 2 ? 2 : infoList.length,
         itemBuilder: (context, index) {
           //Article Container
           return ArticleContainer(

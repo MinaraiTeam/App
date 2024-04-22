@@ -58,12 +58,15 @@ class _ArticlePageState extends State<ArticlePage> {
                 color: Assets.categoriesColors[widget.article.category_id],
               ),
               SizedBox(height: 15),
-              Text(
-                widget.article.title,
-                style: TextStyle(
-                    color: Config.fontText,
-                    fontSize: Config.h1,
-                    fontWeight: FontWeight.bold),
+              Container(
+                constraints: BoxConstraints(maxWidth: screenWidth * 0.9),
+                child: Text(
+                  widget.article.title,
+                  style: TextStyle(
+                      color: Config.fontText,
+                      fontSize: Config.h1,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               Text(
                 widget.article.date,
@@ -80,8 +83,10 @@ class _ArticlePageState extends State<ArticlePage> {
                 itemBuilder: (context, index) {
                   return Center(
                     child: Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 1130
+                      ),
                       margin: EdgeInsets.only(top: 8, bottom: 8),
-                      width: screenWidth,
                       child: data.checkIfImg(
                           widget.article.content[index], screenWidth),
                     ),

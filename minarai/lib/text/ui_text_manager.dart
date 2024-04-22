@@ -26,5 +26,9 @@ class UiTextManager {
     //Most Viewed
     ui['mostviewed_es'] = 'Más Vistos';
     ui['mostviewed_jp'] = '最も見られた';
+    //Loading
+    ui['loading_es'] = 'Cargando...';
+    ui['loading_jp'] = '読み込み中...';
+
   }
 }
