@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,7 @@ class AppData with ChangeNotifier {
 
   final String urlServer = "https://minarai.ieti.site:443";
   final String urlGetList = "/api/article/list";
+  final String urlCountView = "/api/article/sumview";
   UiTextManager uiText = UiTextManager();
   List<Article> latestArticles = [];
   List<Article> mostViewedArticles = [];
@@ -97,6 +99,22 @@ class AppData with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> countView(int id) async {
+    isCharging = true;
+    notifyListeners();
+
+    try {
+      var response = await http.post(Uri.parse(urlServer + urlCountView),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({"article_id": id}));
+    } catch (e) {
+      print(e);
+    } finally {
+      isCharging = false;
+      notifyListeners();
+    }
+  }
+
   Future<List<Article>> getArticlesHttp(
       String category,
       String user,
@@ -108,7 +126,7 @@ class AppData with ChangeNotifier {
       String orderBy) async {
     isCharging = true;
     notifyListeners();
-    
+
     List<Article> result = [];
     try {
       var response = await http.post(Uri.parse(urlServer + urlGetList),

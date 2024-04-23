@@ -3,6 +3,7 @@ import 'package:minarai/enums/assets.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/other/article.dart';
+import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
 class ArticlePage extends StatefulWidget {
@@ -68,13 +69,23 @@ class _ArticlePageState extends State<ArticlePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Text(
-                widget.article.date,
-                style: TextStyle(
-                    color: Config.fontText, fontSize: Config.hNormal - 1),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.article.date,
+                      style: TextStyle(
+                          color: Config.fontText, fontSize: Config.hNormal - 1),
+                    ),
+                    SizedBox(width: 10,),
+                    Text('👁️${widget.article.views}')
+                  ],
+                ),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               ListView.builder(
                 shrinkWrap: true,

@@ -16,7 +16,7 @@ class ArticleContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppData data = Provider.of<AppData>(context, listen: false);
-    
+
     return GestureDetector(
       child: Container(
           width: MediaQuery.of(context).size.width,
@@ -81,7 +81,8 @@ class ArticleContainer extends StatelessWidget {
           )),
       onTap: () {
         data.selectedArticle = data.articleList.indexOf(article);
-        data.changeSubPage(ArticlePage(article: article));
+        data.changeSubPage(ArticlePage(key: UniqueKey(), article: article));
+        data.countView(article.article_id);
         data.forceNotifyListeners();
       },
     );

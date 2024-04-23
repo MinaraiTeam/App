@@ -4,6 +4,7 @@ import 'package:minarai/other/appdata.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/article_container.dart';
 import 'package:minarai/widgets/filter_button.dart';
+import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -42,7 +43,8 @@ class CategoryPage extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          ChargingPopup()
         ],
       ),
     );
