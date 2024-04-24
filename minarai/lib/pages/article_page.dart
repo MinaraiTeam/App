@@ -77,10 +77,10 @@ class _ArticlePageState extends State<ArticlePage> {
                     Text(
                       widget.article.date,
                       style: TextStyle(
-                          color: Config.fontText, fontSize: Config.hNormal - 1),
+                          color: Config.fontText, fontSize: Config.hMini),
                     ),
                     SizedBox(width: 10,),
-                    Text('👁️${widget.article.views}')
+                    Text('👁️${widget.article.views}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
                   ],
                 ),
               ),

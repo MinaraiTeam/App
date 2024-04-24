@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minarai/enums/theme_colors.dart';
 
@@ -8,10 +9,11 @@ class Config {
 
   //Fonts
   static const double h1 = 28;
-  static const double h2 = 22;
-  static const double h3 = 19;
-  static const double h4 = 17;
-  static const double hNormal = 14;
+  static const double h2 = h1 - 6;
+  static const double h3 = h2 - 3;
+  static const double h4 = h3 - 2;
+  static const double hNormal = h4 - 3;
+  static const double hMini = hNormal - 1;
 
   //Category Container
   static const double categoryContainerW = 180;
@@ -19,7 +21,7 @@ class Config {
 
   //Article
   static const double MAX_WIDTH = 400;
-  static const double MAX_HEIGHT = MAX_WIDTH-50;
+  static const double MAX_HEIGHT = MAX_WIDTH - 50;
 
   //ColorTheme
   static Color backgroundColor = ThemeColors.wBackground;
@@ -29,7 +31,11 @@ class Config {
   static Color borderColor = ThemeColors.wBorder;
   static Color selectedColor = ThemeColors.wSelected;
 
+  static Color errorColor = CupertinoColors.destructiveRed;
+  static Color errorFontColor = CupertinoColors.white;
 
+  //Global Context
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   static void applyTheme(Themes t) {
     switch (t) {

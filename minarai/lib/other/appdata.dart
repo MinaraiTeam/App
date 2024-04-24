@@ -93,8 +93,11 @@ class AppData with ChangeNotifier {
     notifyListeners();
     latestArticles = await getArticlesHttp(
         "*", "*", 2, language.toUpperCase(), countryName, "*", "ASC", "date");
-    mostViewedArticles = await getArticlesHttp(
-        "*", "*", 2, language.toUpperCase(), countryName, "*", "ASC", "views");
+
+    if (latestArticles.isNotEmpty) {
+      mostViewedArticles = await getArticlesHttp("*", "*", 2,
+          language.toUpperCase(), countryName, "*", "ASC", "views");
+    }
     isCharging = false;
     notifyListeners();
   }
@@ -165,8 +168,22 @@ class AppData with ChangeNotifier {
         throw Exception("Server Error: ${response.reasonPhrase}");
       }
     } catch (e) {
-      print(e);
+      ScaffoldMessenger.of(Config.navigatorKey.currentContext!)
+          .showSnackBar(SnackBar(
+            backgroundColor: Config.errorColor,
+              content: Container(
+        height: 40,
+        child: Text(
+          'Conection Error',
+          style: TextStyle(color: Config.errorFontColor, fontWeight: FontWeight.bold, fontSize: Config.h3),
+        ),
+      )));
+      isCharging = false;
+      notifyListeners();
+      Future.delayed(Duration(milliseconds: 1))
+          .then((value) => changePage(AppPages.languages));
       print("Exception in getArticlesHttp: $e");
+      return [];
     } finally {
       isCharging = false;
       notifyListeners();
