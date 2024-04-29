@@ -38,4 +38,19 @@ class Article {
       required this.views,
       required this.url});
 
+
+  Map<String, dynamic> toJson() => {
+    'article_id': article_id,
+    'category_id': category_id,
+    'user_id': user_id,
+    'title': title,
+    'preview_image': preview_image,
+    'content': content,
+    'language': language,
+    'annex': annex,
+    'country': country,
+    'date': date,
+    'views': views,
+    'url': url
+  };
 }

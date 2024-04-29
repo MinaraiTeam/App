@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:minarai/enums/app_pages.dart';
@@ -15,13 +16,27 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
-  
   @override
   Widget build(BuildContext context) {
     AppData appData = Provider.of<AppData>(context);
 
     return Scaffold(
       backgroundColor: Config.backgroundColor,
+      appBar: AppBar(
+        actions: [
+          GestureDetector(
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child:
+                  Icon(appData.connectMode ? Icons.wifi : Icons.wifi_off_sharp, size: 32, color: CupertinoColors.activeBlue,),
+            ),
+            onTap: () {
+              appData.connectMode = !appData.connectMode;
+              appData.notifyListeners();
+            },
+          )
+        ],
+      ),
       body: Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +73,9 @@ class LanguageButton extends StatelessWidget {
           if (!data.isCharging) {
             data.changeLanguage(lang);
             data.poblateArticleList();
-            data.changeSubPage(Lobby(key: UniqueKey(),));
+            data.changeSubPage(Lobby(
+              key: UniqueKey(),
+            ));
           }
         },
         child: Container(

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:minarai/enums/app_pages.dart';
@@ -10,6 +11,7 @@ import 'package:minarai/other/article.dart';
 import 'package:minarai/pages/subpages/categorypage.dart';
 import 'package:minarai/pages/subpages/lobby.dart';
 import 'package:minarai/text/ui_text_manager.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AppData with ChangeNotifier {
   AppPages currentPage = AppPages.languages;
@@ -21,6 +23,7 @@ class AppData with ChangeNotifier {
   int selectedArticle = 0;
   Widget subPage = Lobby();
   bool isCharging = false;
+  bool connectMode = true;
   int selectedTheme = 0;
 
   final String urlServer = "https://minarai.ieti.site:443";
@@ -170,17 +173,20 @@ class AppData with ChangeNotifier {
     } catch (e) {
       ScaffoldMessenger.of(Config.navigatorKey.currentContext!)
           .showSnackBar(SnackBar(
-            backgroundColor: Config.errorColor,
+              backgroundColor: Config.errorColor,
               content: Container(
-        height: 40,
-        child: Text(
-          'Conection Error',
-          style: TextStyle(color: Config.errorFontColor, fontWeight: FontWeight.bold, fontSize: Config.h3),
-        ),
-      )));
+                height: 40,
+                child: Text(
+                  'Connection Error',
+                  style: TextStyle(
+                      color: Config.errorFontColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Config.h3),
+                ),
+              )));
       isCharging = false;
       notifyListeners();
-      Future.delayed(Duration(milliseconds: 1))
+      Future.delayed(Duration(milliseconds: 500))
           .then((value) => changePage(AppPages.languages));
       print("Exception in getArticlesHttp: $e");
       return [];
@@ -189,6 +195,30 @@ class AppData with ChangeNotifier {
       notifyListeners();
     }
     return result;
+  }
+
+  Future<void> saveArticles(String fileName, List<Article> data) async {
+    isCharging = true;
+    notifyListeners();
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/$fileName');
+
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+      file.create();
+
+      List<String> content = data.map((article) => jsonEncode(article.toJson())).toList();
+
+      await file.writeAsString(content.join(', '));
+    } catch (e) {
+      print(e);
+    } finally {
+      isCharging = false;
+      notifyListeners();
+    }
   }
 
   Widget checkIfImg(String content, double screenWidth) {
