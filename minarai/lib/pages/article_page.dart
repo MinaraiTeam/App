@@ -80,7 +80,8 @@ class _ArticlePageState extends State<ArticlePage> {
                           color: Config.fontText, fontSize: Config.hMini),
                     ),
                     SizedBox(width: 10,),
-                    Text('👁️${widget.article.views}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
+                    Text('👁️${widget.article.views}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),),
+                    Text('     user:${widget.article.annex}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
                   ],
                 ),
               ),

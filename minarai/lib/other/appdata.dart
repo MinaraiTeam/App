@@ -12,12 +12,14 @@ import 'package:minarai/pages/subpages/categorypage.dart';
 import 'package:minarai/pages/subpages/lobby.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class AppData with ChangeNotifier {
   AppPages currentPage = AppPages.languages;
   String language = 'es';
   String countryName = 'ES';
   String font = 'es';
+  String saveFolder = 'Minarai';
   int selectedCategory = 0;
   int selectedCountry = 0;
   int selectedArticle = 0;
@@ -98,8 +100,14 @@ class AppData with ChangeNotifier {
         "*", "*", 2, language.toUpperCase(), countryName, "*", "ASC", "date");
 
     if (latestArticles.isNotEmpty) {
+      saveArticles("latest.json", latestArticles);
+
       mostViewedArticles = await getArticlesHttp("*", "*", 2,
           language.toUpperCase(), countryName, "*", "ASC", "views");
+
+      if (mostViewedArticles.isNotEmpty) {
+        saveArticles("mostviewed.json", mostViewedArticles);
+      }
     }
     isCharging = false;
     notifyListeners();
@@ -201,18 +209,28 @@ class AppData with ChangeNotifier {
     isCharging = true;
     notifyListeners();
 
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/$fileName');
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String baseDir = appDocDir.path;
+    String folderPath = path.join(baseDir, saveFolder);
+    Directory directory = Directory(folderPath);
+
+    final file = File('$folderPath/$fileName');
 
     try {
+      // Check and create directory if it doesn't exist
+      if (!await directory.exists()) {
+        await directory.create();
+      }
+      // Ensure the file does not exist to write a fresh file
       if (await file.exists()) {
         await file.delete();
       }
-      file.create();
+      await file.create();
 
-      List<String> content = data.map((article) => jsonEncode(article.toJson())).toList();
+      String jsonContent = jsonEncode(data.map((article) => article.toJson()).toList());
 
-      await file.writeAsString(content.join(', '));
+      // Write the JSON string to the file
+      await file.writeAsString(jsonContent);
     } catch (e) {
       print(e);
     } finally {
