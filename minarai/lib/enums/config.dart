@@ -31,8 +31,10 @@ class Config {
   static Color borderColor = ThemeColors.wBorder;
   static Color selectedColor = ThemeColors.wSelected;
 
-  static Color errorColor = CupertinoColors.destructiveRed;
-  static Color errorFontColor = CupertinoColors.white;
+  static Color errorColor = ThemeColors.wErrorBg;
+  static Color errorFontColor = ThemeColors.wErrorFont;
+
+  static Color buttonColor = ThemeColors.wButtonColor;
 
   //Global Context
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -46,6 +48,9 @@ class Config {
         Config.fontText = ThemeColors.wFontText;
         Config.borderColor = ThemeColors.wBorder;
         Config.selectedColor = ThemeColors.wSelected;
+        Config.buttonColor = ThemeColors.wButtonColor;
+        Config.errorColor = ThemeColors.wErrorBg;
+        Config.errorFontColor = ThemeColors.wErrorFont;
         break;
 
       case Themes.dark:
@@ -55,6 +60,9 @@ class Config {
         Config.fontText = ThemeColors.bFontText;
         Config.borderColor = ThemeColors.bBorder;
         Config.selectedColor = ThemeColors.bSelected;
+        Config.buttonColor = ThemeColors.bButtonColor;
+        Config.errorColor = ThemeColors.bErrorBg;
+        Config.errorFontColor = ThemeColors.bErrorFont;
         break;
       default:
     }

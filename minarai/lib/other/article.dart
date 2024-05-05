@@ -22,6 +22,7 @@ class Article {
   late String country;
   late String date;
   late int views;
+  late String user_name;
 
   //Constructor
   Article(
@@ -36,13 +37,15 @@ class Article {
       required this.country,
       required this.date,
       required this.views,
-      required this.url});
+      required this.url,
+      required this.user_name});
 
 
   Map<String, dynamic> toJson() => {
     'article_id': article_id,
     'category_id': category_id,
     'user_id': user_id,
+    'user_name': user_name,
     'title': title,
     'preview_image': preview_image,
     'content': content,
@@ -51,6 +54,6 @@ class Article {
     'country': country,
     'date': date,
     'views': views,
-    'url': url
+    'url': url,
   };
 }

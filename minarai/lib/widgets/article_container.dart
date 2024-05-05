@@ -41,13 +41,13 @@ class ArticleContainer extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: FadeInImage.assetNetwork(
+                  child: data.connectMode ? FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
                     image: data.urlServer + article.preview_image,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(seconds: 1),
                     fadeOutDuration: Duration(seconds: 1),
-                  ),
+                  ) : Container(),
                 ),
               ),
               SizedBox(width: 10.0),
@@ -82,7 +82,11 @@ class ArticleContainer extends StatelessWidget {
       onTap: () {
         data.selectedArticle = data.articleList.indexOf(article);
         data.changeSubPage(ArticlePage(key: UniqueKey(), article: article));
-        data.countView(article.article_id);
+
+        if(data.connectMode) {
+          data.countView(article.article_id);
+        }
+        
         data.forceNotifyListeners();
       },
     );

@@ -7,6 +7,7 @@ import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/enums/theme_colors.dart';
 import 'package:minarai/other/appdata.dart';
+import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
 class ConfigurationPage extends StatefulWidget {
@@ -47,48 +48,132 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
           onTap: () => data.changePage(AppPages.home),
         ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 5, color: Config.borderColor),
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
-                  child: LiquidSwipe.builder(
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        color: ThemeColors.themeList[index].cBackground,
-                        alignment: Alignment.center,
-                        child: Text(
-                          ThemeColors.themeList[index].themeName,
-                          style: TextStyle(
-                              color: ThemeColors.themeList[index].cFontColor,
-                              fontSize: Config.h3,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    },
-                    itemCount: ThemeColors.themeList.length,
-                    slideIconWidget: Icon(Icons.arrow_back_ios),
-                    waveType: WaveType.liquidReveal,
-                    enableSideReveal: true,
-                    liquidController: lController,
-                    preferDragFromRevealedArea: true,
-                    ignoreUserGestureWhileAnimating: true,
-                    onPageChangeCallback: (activePageIndex) {
-                      data.changeTheme(
-                          ThemeColors.themeList[activePageIndex].theme,
-                          activePageIndex);
-                    },
-                  ))
-            ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Visual Configuration', style: TextStyle(fontSize: Config.h2, fontWeight: FontWeight.bold, color: Config.fontText),),
+                  SizedBox(height: 5,),
+                  //Theme Picker
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: 70,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 5, color: Config.borderColor),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: LiquidSwipe.builder(
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: ThemeColors.themeList[index].cBackground,
+                            alignment: Alignment.center,
+                            child: Text(
+                              ThemeColors.themeList[index].themeName,
+                              style: TextStyle(
+                                  color: ThemeColors.themeList[index].cFontColor,
+                                  fontSize: Config.h3,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          );
+                        },
+                        itemCount: ThemeColors.themeList.length,
+                        slideIconWidget: Icon(Icons.arrow_back_ios),
+                        waveType: WaveType.liquidReveal,
+                        enableSideReveal: true,
+                        liquidController: lController,
+                        preferDragFromRevealedArea: true,
+                        ignoreUserGestureWhileAnimating: true,
+                        onPageChangeCallback: (activePageIndex) {
+                          data.changeTheme(
+                              ThemeColors.themeList[activePageIndex].theme,
+                              activePageIndex);
+                        },
+                      )),
+                  SizedBox(height: 20,),
+                  Text('Others', style: TextStyle(fontSize: Config.h2, fontWeight: FontWeight.bold, color: Config.fontText),),
+                  SizedBox(height: 5,),
+                  DownloadArticlesButton(),
+                  SizedBox(height: 5,),
+                  DeleteDataButton()
+                ],
+              ),
+            ),
           ),
+          ChargingPopup()
+        ],
+      ),
+    );
+  }
+}
+
+
+class DownloadArticlesButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AppData data = Provider.of<AppData>(context);
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Config.backgroundColor, backgroundColor: Config.fontText, // Text color
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30), // Rounded corners
         ),
+        textStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onPressed: () {
+        data.downloadArticles();
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(Icons.download, color: Config.backgroundColor), // Download icon
+          SizedBox(width: 10), // Space between icon and text
+          Text('Download Articles'),
+        ],
+      ),
+    );
+  }
+}
+
+class DeleteDataButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    AppData data = Provider.of<AppData>(context);
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Config.fontText, backgroundColor: Config.backgroundColor, // Text color
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30), // Rounded corners
+          side: BorderSide(color: Config.fontText)
+        ),
+        textStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onPressed: () {
+        data.deleteLocalFiles();
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(Icons.delete, color: Config.fontText), // Download icon
+          SizedBox(width: 10), // Space between icon and text
+          Text('Delete Data'),
+        ],
       ),
     );
   }

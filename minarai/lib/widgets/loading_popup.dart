@@ -13,14 +13,23 @@ class _ChargingPopupState extends State<ChargingPopup> {
   @override
   void initState() {
     super.initState();
+    // Register a callback for when this widget is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkAndDisplayDialog();
+      maybeShowDialog();
     });
   }
 
-  void checkAndDisplayDialog() {
-    var appData = Provider.of<AppData>(context, listen: false);
-    if (appData.isCharging) {
+  void maybeShowDialog() {
+    if (mounted) {
+      var appData = Provider.of<AppData>(context, listen: false);
+      if (appData.isCharging) {
+        Future.microtask(() => showDialogIfCurrent(context, appData));
+      }
+    }
+  }
+
+  void showDialogIfCurrent(BuildContext context, AppData appData) {
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -30,10 +39,12 @@ class _ChargingPopupState extends State<ChargingPopup> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 10,),
                 CircularProgressIndicator(),
                 SizedBox(height: 20),
-                Text(UiTextManager.uiT.ui['loading_${appData.language}'], style: TextStyle(color: Config.fontText, fontWeight: FontWeight.bold),),
+                Text(
+                  UiTextManager.uiT.ui['loading_${appData.language}'],
+                  style: TextStyle(color: Config.fontText, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
           );
@@ -44,16 +55,19 @@ class _ChargingPopupState extends State<ChargingPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<AppData, bool>(
-      selector: (_, appData) => appData.isCharging,
-      builder: (_, isCharging, __) {
-        if (!isCharging) {
-          // Only try to pop if there's a dialog shown.
-          if (ModalRoute.of(context)?.isCurrent == false) {
-            Navigator.of(context, rootNavigator: true).pop();
+    // Use a Consumer to react to changes in AppData
+    return Consumer<AppData>(
+      builder: (_, appData, __) {
+        // Respond to changes in isCharging by attempting to show the dialog
+        if (appData.isCharging) {
+          maybeShowDialog();
+        } else {
+          // Close the dialog if it's open and the condition is no longer met
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
           }
         }
-        return Container();
+        return SizedBox.shrink();  // Render an empty container when not needed
       },
     );
   }

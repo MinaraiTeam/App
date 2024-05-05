@@ -40,6 +40,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icon(
               Icons.settings,
               size: Config.iconW,
+              color: Config.buttonColor,
             ),
             onPressed: () {
               appData.changePage(AppPages.configuration);

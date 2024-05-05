@@ -8,6 +8,7 @@ import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/appbar.dart';
 import 'package:minarai/widgets/article_container.dart';
 import 'package:minarai/widgets/category_container.dart';
+import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -64,7 +65,7 @@ class NavigationBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/flag_es.png',
+                  Image.asset('assets/images/spain.png',
                       width: 40, height: 40),
                   Text(
                     UiTextManager.uiT.ui['country_es_${data.language}'],
@@ -91,7 +92,7 @@ class NavigationBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/flag_jp.png',
+                  Image.asset('assets/images/japan.png',
                       width: 40, height: 40),
                   Text(
                     UiTextManager.uiT.ui['country_jp_${data.language}'],
@@ -104,6 +105,7 @@ class NavigationBar extends StatelessWidget {
               ),
             ),
           ),
+          ChargingPopup()
         ],
       ),
     );

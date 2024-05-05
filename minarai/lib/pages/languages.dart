@@ -69,14 +69,12 @@ class LanguageButton extends StatelessWidget {
       elevation: 4.0,
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
-        onTap: () {
-          if (!data.isCharging) {
-            data.changeLanguage(lang);
-            data.poblateArticleList();
-            data.changeSubPage(Lobby(
-              key: UniqueKey(),
-            ));
-          }
+        onTap: () async {
+          data.changeLanguage(lang);
+          data.poblateArticleList();
+          data.changeSubPage(Lobby(
+            key: UniqueKey(),
+          ));
         },
         child: Container(
           padding: EdgeInsets.all(12.0),

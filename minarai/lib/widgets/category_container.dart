@@ -78,8 +78,13 @@ class categoryContainer extends StatelessWidget {
       data.isCharging = true;
       data.selectCategory(index);
       data.articleList.clear();
-      data.articleList = await data.getArticlesHttp((index+1).toString(), "*", 2,
+
+      if (data.connectMode) {
+        data.articleList = await data.getArticlesHttp((index+1).toString(), "*", 2,
           data.language.toUpperCase(), data.countryName, "*", "ASC", "date");
+      } else {
+        data.articleList = await data.readFromLocalFile(data.articleFile, index.toString(), data.countryName, data.language.toUpperCase());
+      }
     }
   }
 }

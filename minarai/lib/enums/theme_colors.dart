@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum Themes { light, dark, blue }
@@ -14,6 +15,9 @@ class ThemeColors {
   static const wSecFont = Color.fromARGB(255, 56, 56, 56);
   static const wBorder = Color(0xFFBDBDBD);
   static const wSelected = Color.fromARGB(255, 199, 199, 199);
+  static const wButtonColor = CupertinoColors.activeBlue;
+  static const wErrorBg = CupertinoColors.destructiveRed;
+  static const wErrorFont = CupertinoColors.white;
 
   //Black Theme
   static const bBackground = Color(0xFF181818);
@@ -22,6 +26,9 @@ class ThemeColors {
   static const bSecFont = Color.fromARGB(255, 177, 177, 177);
   static const bBorder = Color(0xFF121212);
   static const bSelected = Color.fromARGB(255, 51, 51, 51);
+  static const bButtonColor = CupertinoColors.activeBlue;
+  static const bErrorBg = CupertinoColors.destructiveRed;
+  static const bErrorFont = CupertinoColors.white;
 }
 
 class AppTheme {

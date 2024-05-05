@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
+import 'package:minarai/pages/subpages/lobby.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/article_container.dart';
 import 'package:minarai/widgets/filter_button.dart';
@@ -63,6 +65,12 @@ class TitleWidget extends StatelessWidget {
     return Container(
       child: Row(
         children: [
+          IconButton(
+            onPressed: () {
+              data.changeSubPage(Lobby(key: UniqueKey(),));
+            }, 
+            icon: Icon(Icons.arrow_circle_left_outlined, color: Config.buttonColor)
+          ),
           Text(
             UiTextManager.uiT.ui['categories_${data.language}']
                 [data.selectedCategory],

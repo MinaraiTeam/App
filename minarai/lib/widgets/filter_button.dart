@@ -3,6 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as date_picker;
 import 'package:intl/intl.dart';
 import 'package:minarai/enums/config.dart';
+import 'package:minarai/other/appdata.dart';
+import 'package:minarai/text/ui_text_manager.dart';
+import 'package:provider/provider.dart';
 
 /// A custom IconButton that opens a filter menu.
 class FilterButton extends StatelessWidget {
@@ -10,9 +13,17 @@ class FilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppData data = Provider.of<AppData>(context);
+
     return IconButton(
-      onPressed: () => showFilterMenu(context),
-      icon: const Icon(Icons.filter_alt_rounded),
+      onPressed: () {
+        if (data.connectMode) {
+          showFilterMenu(context);
+        } else {
+          data.showSnackBar(UiTextManager.uiT.ui["filter_error_${data.language}"]);
+        }
+      },
+      icon: data.connectMode ? Icon(Icons.filter_alt, color: Config.buttonColor) : Icon(Icons.filter_alt_off, color: Config.errorColor),
     );
   }
 
@@ -41,6 +52,7 @@ class _FilterMenuState extends State<FilterMenu> {
   String _filterBy = '*';  
   String _order = 'ASC';
   DateTime _selectedDate = DateTime.now();
+  String formattedDate = '*';
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +60,23 @@ class _FilterMenuState extends State<FilterMenu> {
     double screenWidth = MediaQuery.of(context).size.width;
     double containerHeight = screenHeight * 0.6; // 60% of screen height
     double containerWidth = screenWidth * 0.8; // 80% of screen width
+    AppData data = Provider.of<AppData>(context);
+    
 
     return Container(
       height: containerHeight,
       width: containerWidth,
       color: Config.backgroundColor,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('Filter By:', style: TextStyle(color: Config.fontText, fontSize: Config.h3)),
-          _buildDropdown('Filter By', ['*', 'date', 'views', 'comments'], ['All', 'Date', 'Views', 'Comments'], _filterBy,
+          _buildDropdown('Filter By', ['*', 'date', 'views', 'comments'], [UiTextManager.uiT.ui['filter_${data.language}'][0], UiTextManager.uiT.ui['filter_${data.language}'][1], UiTextManager.uiT.ui['filter_${data.language}'][2], UiTextManager.uiT.ui['filter_${data.language}'][3]], _filterBy,
               (val) => setState(() => _filterBy = val!)),
           SizedBox(height: 15),
           Text('Order:', style: TextStyle(color: Config.fontText, fontSize: Config.h3)),
-          _buildDropdown('Order', ['ASC', 'DESC'], ['Ascending', 'Descending'], _order,
+          _buildDropdown('Order', ['ASC', 'DESC'], [UiTextManager.uiT.ui['order_${data.language}'][0], UiTextManager.uiT.ui['order_${data.language}'][1]], _order,
               (val) => setState(() => _order = val!)),
           SizedBox(height: 15),
           Text('Date:', style: TextStyle(color: Config.fontText, fontSize: Config.h3)),
@@ -74,10 +88,39 @@ class _FilterMenuState extends State<FilterMenu> {
                   color: Colors.transparent,
                   child: Icon(Icons.calendar_month_outlined, color: Config.fontText, size: Config.iconW,)),
               ),
-              SizedBox(width: 15,),
-              Text(DateFormat('dd/MM/yyyy').format(_selectedDate), style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
+              const SizedBox(width: 15,),
+              Text(formattedDate, style: TextStyle(color: Config.fontText, fontSize: Config.hMini),),
+              const SizedBox(width: 10,),
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    formattedDate = '*';
+                  });
+                },
+                backgroundColor: Config.secondaryColor,
+                mini: true,
+                child: Text(
+                  'X',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Config.fontText
+                  ),
+                ), // Makes the button smaller
+              )
             ],
           ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Config.fontText
+            ),
+            onPressed:() async {
+              Navigator.of(context).pop();
+              data.articleList.clear();
+              data.articleList = await data.getArticlesHttp((data.selectedCategory+1).toString(), "*", -1, data.language, data.countryName, formattedDate, _order, _filterBy);
+            }, 
+            child: Text('Filter', style: TextStyle(color: Config.backgroundColor, ))
+          )
         ],
       ),
     );
@@ -115,9 +158,7 @@ class _FilterMenuState extends State<FilterMenu> {
       onConfirm: (date) {
         setState(() {
           _selectedDate = date;
-          // Optionally, you might want to format the date immediately for display or use.
-          String formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate);
-          print("Selected Date: $formattedDate"); // For debugging
+          formattedDate = DateFormat('dd/MM/yyyy').format(_selectedDate);
         });
       },
       currentTime: _selectedDate,

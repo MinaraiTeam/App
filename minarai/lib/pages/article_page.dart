@@ -43,13 +43,13 @@ class _ArticlePageState extends State<ArticlePage> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: FadeInImage.assetNetwork(
+                  child: data.connectMode ? FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loading.gif',
                     image: data.urlServer + widget.article.preview_image,
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(seconds: 1),
                     fadeOutDuration: Duration(seconds: 1),
-                  ),
+                  ) : Image.asset(widget.article.preview_image),
                 ),
               ),
               SizedBox(height: 5),
@@ -81,7 +81,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     ),
                     SizedBox(width: 10,),
                     Text('👁️${widget.article.views}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),),
-                    Text('     user:${widget.article.annex}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
+                    Text('     user:${widget.article.user_name}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
                   ],
                 ),
               ),

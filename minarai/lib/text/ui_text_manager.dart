@@ -29,6 +29,14 @@ class UiTextManager {
     //Loading
     ui['loading_es'] = 'Cargando...';
     ui['loading_jp'] = '読み込み中...';
+    //Filter
+    ui['filter_es'] = ['All', 'Date', 'Views', 'Comments'];
+    ui['filter_jp'] = ['すべて', '日付', '閲覧数', 'コメント'];
+    ui['order_es'] =  ['Ascending', 'Descending'];
+    ui['order_jp'] =  ['昇順', '降順'];
+    //Errors
+    ui['filter_error_es'] = "Filtro no disponible en modo sin conexión.";
+    ui['filter_error_jp'] = "オフラインモードではフィルターが利用できません";
 
   }
 }

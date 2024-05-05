@@ -78,7 +78,7 @@ class Lobby extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            ChargingPopup()
+            
           ],
         ),
       ),
@@ -119,9 +119,10 @@ class SectionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: ListView.builder(
-        itemCount: infoList.length > 2 ? 2 : infoList.length,
+      child: infoList.length == 0 ? Container(child: Text('No files found', style: TextStyle(color: Config.secondaryFontColor),),) : ListView.builder(
+        itemCount: infoList.length >= 2 ? 2 : infoList.length,
         itemBuilder: (context, index) {
+          print(infoList[index]);
           //Article Container
           return ArticleContainer(
             article: infoList[index],
