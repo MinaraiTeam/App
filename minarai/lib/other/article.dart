@@ -1,3 +1,5 @@
+import 'package:minarai/other/appdata.dart';
+
 enum Country { es, jp }
 
 class Categories {
@@ -41,13 +43,13 @@ class Article {
       required this.user_name});
 
 
-  Map<String, dynamic> toJson() => {
+  Future<Map<String, dynamic>> toJson() async => {
     'article_id': article_id,
     'category_id': category_id,
     'user_id': user_id,
     'user_name': user_name,
     'title': title,
-    'preview_image': preview_image,
+    'preview_image': await AppData.downloadImage(preview_image),
     'content': content,
     'language': language,
     'annex': annex,

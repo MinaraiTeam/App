@@ -47,7 +47,10 @@ class ArticleContainer extends StatelessWidget {
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(seconds: 1),
                     fadeOutDuration: Duration(seconds: 1),
-                  ) : Container(),
+                  ) : Image.asset(
+                    article.preview_image,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               SizedBox(width: 10.0),

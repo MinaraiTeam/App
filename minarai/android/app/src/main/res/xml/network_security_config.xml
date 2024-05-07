@@ -1,0 +1,10 @@
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">minarai.ieti.site</domain>
+        <trust-anchors>
+            <certificates src="system" />
+            <!-- Para desarrollo, podrías necesitar permitir certificados de usuario -->
+            <certificates src="user" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

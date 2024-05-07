@@ -36,7 +36,7 @@ class AppData with ChangeNotifier {
   List<Article> mostViewedArticles = [];
   List<Article> articleList = [];
 
-  String saveFolder = 'Minarai';
+  static String saveFolder = 'Minarai';
   String latestFile = 'latest.json';
   String mostViewFile = 'mostviewed.json';
   String articleFile = 'articles.json';
@@ -101,17 +101,19 @@ class AppData with ChangeNotifier {
 
     isCharging = true;
     notifyListeners();
-    if (!connectMode){
-      latestArticles = await readFromLocalFile(latestFile, '*', countryName, language);
-      mostViewedArticles = await readFromLocalFile(mostViewFile, '*', countryName, language);
+    if (!connectMode) {
+      latestArticles =
+          await readFromLocalFile(latestFile, '*', countryName, language);
+      mostViewedArticles =
+          await readFromLocalFile(mostViewFile, '*', countryName, language);
     } else {
-      latestArticles = await getArticlesHttp(
-        "*", "*", 2, language.toUpperCase(), countryName, "*", "DESC", "date");
+      latestArticles = await getArticlesHttp("*", "*", 2,
+          language.toUpperCase(), countryName, "*", "DESC", "date");
 
-    if (latestArticles.isNotEmpty) {
-      mostViewedArticles = await getArticlesHttp("*", "*", 2,
-          language.toUpperCase(), countryName, "*", "DESC", "views");
-    }
+      if (latestArticles.isNotEmpty) {
+        mostViewedArticles = await getArticlesHttp("*", "*", 2,
+            language.toUpperCase(), countryName, "*", "DESC", "views");
+      }
     }
 
     isCharging = false;
@@ -160,6 +162,7 @@ class AppData with ChangeNotifier {
             'order': order,
             'orderBy': orderBy
           }));
+
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body)['data'];
 
@@ -169,7 +172,7 @@ class AppData with ChangeNotifier {
               article_id: a['article_id'],
               category_id: a['category_id'] - 1,
               user_id: a['user_id'],
-              user_name: userName, 
+              user_name: userName,
               title: a['title'],
               preview_image: a['preview_image'],
               content: jsonDecode(a['content'])['content'],
@@ -181,8 +184,8 @@ class AppData with ChangeNotifier {
               url: urlServer);
           result.add(art);
         }
+      } else if (response.statusCode == 402) {
       } else {
-        print(response.statusCode);
         throw Exception("Server Error: ${response.reasonPhrase}");
       }
     } catch (e) {
@@ -200,8 +203,7 @@ class AppData with ChangeNotifier {
     return result;
   }
 
-  Future<String> getUserNameHttp(
-      int user_id) async {
+  Future<String> getUserNameHttp(int user_id) async {
     isCharging = true;
     notifyListeners();
 
@@ -210,20 +212,27 @@ class AppData with ChangeNotifier {
       var response = await http.post(Uri.parse(urlServer + urlGetUserName),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            'user': user_id,
+            'user_id': user_id,
           }));
+
       if (response.statusCode == 200) {
-        result = response.body;
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        String status = jsonResponse['status'];
+        String message = jsonResponse['message'];
+        List<dynamic> data = jsonResponse['data'];
+        Map<String, dynamic> firstUser = data.first;
+        String name = firstUser['name'];
+
+        result = name;
         return result;
       } else {
-        print(response.statusCode);
         throw Exception("Server Error: ${response.reasonPhrase}");
       }
     } catch (e) {
       showSnackBar('Connection Error');
       isCharging = false;
       notifyListeners();
-      Future.delayed(Duration(milliseconds: 500))
+      Future.delayed(Duration(milliseconds: 700))
           .then((value) => changePage(AppPages.languages));
       print("Exception in getArticlesHttp: $e");
       return '';
@@ -246,13 +255,15 @@ class AppData with ChangeNotifier {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: connectMode ? FadeInImage.assetNetwork(
-              placeholder: 'assets/images/loading.gif',
-              image: urlServer + content,
-              fit: BoxFit.cover,
-              fadeInDuration: Duration(seconds: 1),
-              fadeOutDuration: Duration(seconds: 1),
-            ) : Container(),
+            child: connectMode
+                ? FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/loading.gif',
+                    image: urlServer + content,
+                    fit: BoxFit.cover,
+                    fadeInDuration: Duration(seconds: 1),
+                    fadeOutDuration: Duration(seconds: 1),
+                  )
+                : Container(),
           ),
         ),
       );
@@ -270,41 +281,65 @@ class AppData with ChangeNotifier {
 
   void showSnackBar(String msn) {
     ScaffoldMessenger.of(Config.navigatorKey.currentContext!)
-          .showSnackBar(SnackBar(
-              backgroundColor: Config.errorColor,
-              content: Container(
-                height: 40,
-                child: Text(
-                  msn,
-                  style: TextStyle(
-                      color: Config.errorFontColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: Config.h3),
-                ),
-              )));
+        .showSnackBar(SnackBar(
+            backgroundColor: Config.errorColor,
+            content: Container(
+              height: 40,
+              child: Text(
+                msn,
+                style: TextStyle(
+                    color: Config.errorFontColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: Config.h3),
+              ),
+            )));
   }
-
 
   //Local Management
   Future<void> downloadArticles() async {
     isCharging = true;
     notifyListeners();
 
-    print(isCharging);
-    List<Article> listArticles = await getArticlesHttp("*", "*", 2, "ES", "ES", "*", "DESC", "views");
-    if (listArticles != []) {await saveArticles(latestFile, listArticles);}
+    List<Article> listArticles = [];
+    listArticles = listArticles +
+        await getArticlesHttp("*", "*", 2, "ES", "ES", "*", "DESC", "date");
+    listArticles = listArticles +
+        await getArticlesHttp("*", "*", 2, "ES", "JP", "*", "DESC", "date");
+    listArticles = listArticles +
+        await getArticlesHttp("*", "*", 2, "JP", "JP", "*", "DESC", "date");
+    listArticles = listArticles +
+        await getArticlesHttp("*", "*", 2, "JP", "ES", "*", "DESC", "date");
+    if (listArticles != []) {
+      await saveArticles(latestFile, listArticles);
+    }
 
     listArticles.clear();
-    listArticles = await getArticlesHttp("*", "*", 2, "ES", "ES", "*", "DESC", "date");
-    if (listArticles != []) {await saveArticles(mostViewFile, listArticles);}
-    
+    listArticles = [];
+    listArticles  = listArticles +
+        await getArticlesHttp("*", "*", 2, "ES", "ES", "*", "DESC", "views");
+    listArticles  = listArticles  +
+        await getArticlesHttp("*", "*", 2, "ES", "JP", "*", "DESC", "views");
+    listArticles  = listArticles  +
+        await getArticlesHttp("*", "*", 2, "JP", "JP", "*", "DESC", "views");
+    listArticles  = listArticles  +
+        await getArticlesHttp("*", "*", 2, "JP", "ES", "*", "DESC", "views");
+    if (listArticles != []) {
+      await saveArticles(mostViewFile, listArticles);
+    }
+
     List<Article> allList = [];
-    allList = allList + await getArticlesHttp("*", "*", 20, "ES", "ES", "*", "DESC", "date");
-    allList = allList + await getArticlesHttp("*", "*", 20, "ES", "JP", "*", "DESC", "date");
-    allList = allList + await getArticlesHttp("*", "*", 20, "JP", "JP", "*", "DESC", "date");
-    allList = allList + await getArticlesHttp("*", "*", 20, "JP", "ES", "*", "DESC", "date");
-    
-    if (allList != []) {await saveArticles(articleFile, allList);}
+    allList = allList +
+        await getArticlesHttp("*", "*", 20, "ES", "ES", "*", "DESC", "date");
+    allList = allList +
+        await getArticlesHttp("*", "*", 20, "ES", "JP", "*", "DESC", "date");
+    allList = allList +
+        await getArticlesHttp("*", "*", 20, "JP", "JP", "*", "DESC", "date");
+    allList = allList +
+        await getArticlesHttp("*", "*", 20, "JP", "ES", "*", "DESC", "date");
+
+    if (allList != []) {
+      await saveArticles(articleFile, allList);
+    }
 
     isCharging = false;
     notifyListeners();
@@ -324,7 +359,7 @@ class AppData with ChangeNotifier {
     try {
       // Check and create directory if it doesn't exist
       if (!await directory.exists()) {
-        await directory.create();
+        await directory.create(recursive: true);
       }
       // Ensure the file does not exist to write a fresh file
       if (await file.exists()) {
@@ -332,7 +367,11 @@ class AppData with ChangeNotifier {
       }
       await file.create();
 
-      String jsonContent = jsonEncode(data.map((article) => article.toJson()).toList());
+      // Resolve all asynchronous toJson calls
+      List<Map<String, dynamic>> articlesJson =
+          await Future.wait(data.map((article) => article.toJson()).toList());
+
+      String jsonContent = jsonEncode(articlesJson);
 
       // Write the JSON string to the file
       await file.writeAsString(jsonContent);
@@ -350,7 +389,8 @@ class AppData with ChangeNotifier {
 
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String baseDir = appDocDir.path;
-    String folderPath = path.join(baseDir, saveFolder); // Asegúrate de definir 'saveFolder'
+    String folderPath =
+        path.join(baseDir, saveFolder); // Asegúrate de definir 'saveFolder'
 
     final directory = Directory(folderPath);
     if (directory.existsSync()) {
@@ -366,116 +406,122 @@ class AppData with ChangeNotifier {
     notifyListeners();
   }
 
-
- Future<List<Article>> readFromLocalFile(String fileName, String category, String country, String lang) async {
-  isCharging = true;
-  notifyListeners();
-
-  List<Article> result = [];
-  try {
-    // Get the directory for the application documents.
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String folderPath = path.join(appDocDir.path, saveFolder);
-
-    // Ensure the folder exists
-    Directory directory = Directory(folderPath);
-    if (!await directory.exists()) {
-      await directory.create(recursive: true);
-    }
-
-    // Prepare the file path
-    final filePath = path.join(folderPath, fileName);
-    final file = File(filePath);
-
-    // Check if the file exists before reading
-    if (await file.exists()) {
-      // Read the file
-      String contents = await file.readAsString();
-
-      // Decode the JSON data
-      List<dynamic> jsonData = json.decode(contents);
-      
-      for (var a in jsonData) {
-        List<dynamic> contentList = List<dynamic>.from(a['content']);
-
-        if (category != '*' && (a['category_id']) == int.parse(category) && a['language'] == lang.toUpperCase() && a['country'] == country) {    
-          Article art = Article(
-            article_id: a['article_id'],
-            category_id: a['category_id'],
-            user_id: a['user_id'],
-            user_name: a['user_name'],
-            title: a['title'],
-            preview_image: await downloadImage(folderPath, urlServer + a['preview_image']),
-            content: contentList,
-            language: a['language'],
-            annex: a['annex'],
-            country: a['country'],
-            date: a['date'],
-            views: a['views'],
-            url: urlServer);
-          result.add(art);
-        } else if (category == '*' && a['language'] == lang.toUpperCase() && a['country'] == country) {
-          Article art = Article(
-            article_id: a['article_id'],
-            category_id: a['category_id'],
-            user_id: a['user_id'],
-            user_name: a['user_name'],
-            title: a['title'],
-            preview_image: await downloadImage(folderPath, urlServer + a['preview_image']),
-            content: contentList,
-            language: a['language'],
-            annex: a['annex'],
-            country: a['country'],
-            date: a['date'],
-            views: a['views'],
-            url: urlServer);
-          result.add(art);
-        }
-      }
-      return result;
-    } else {
-      print('File does not exist!');
-      return result;
-    }
-  } catch (e) {
-    print('An error occurred: $e');
-    return result;
-  } finally {
-    isCharging = false;
+  Future<List<Article>> readFromLocalFile(
+      String fileName, String category, String country, String lang) async {
+    isCharging = true;
     notifyListeners();
-  }
-}
 
-Future<String> downloadImage(String folderPath, String imageUrl) async {
-  // Create the http client
-  var client = http.Client();
+    List<Article> result = [];
+    try {
+      // Get the directory for the application documents.
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String folderPath = path.join(appDocDir.path, saveFolder);
 
-  try {
-    // Make the HTTP request to download the image
-    var response = await client.get(Uri.parse(imageUrl));
-    if (response.statusCode == 200) {
-      // Get the directory to save the image
-      var directory = await getApplicationDocumentsDirectory();
-      var imagePath = path.join(directory.path, folderPath, path.basename(imageUrl));
-      
-      // Create the folder if it doesn't exist
-      await Directory(path.dirname(imagePath)).create(recursive: true);
-      
-      // Write the image to a file
-      var file = File(imagePath);
-      await file.writeAsBytes(response.bodyBytes);
-      
-      // Return the path of the downloaded image
-      return imagePath;
-    } else {
-      throw Exception('Failed to download image: Status code ${response.statusCode}');
+      // Ensure the folder exists
+      Directory directory = Directory(folderPath);
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      // Prepare the file path
+      final filePath = path.join(folderPath, fileName);
+      final file = File(filePath);
+
+      // Check if the file exists before reading
+      if (await file.exists()) {
+        // Read the file
+        String contents = await file.readAsString();
+
+        // Decode the JSON data
+        List<dynamic> jsonData = json.decode(contents);
+
+        for (var a in jsonData) {
+          List<dynamic> contentList = List<dynamic>.from(a['content']);
+
+          if (category != '*' &&
+              (a['category_id']) == int.parse(category) &&
+              a['language'] == lang.toUpperCase() &&
+              a['country'] == country) {
+            Article art = Article(
+                article_id: a['article_id'],
+                category_id: a['category_id'],
+                user_id: a['user_id'],
+                user_name: a['user_name'],
+                title: a['title'],
+                preview_image: a['preview_image'],
+                content: contentList,
+                language: a['language'],
+                annex: a['annex'],
+                country: a['country'],
+                date: a['date'],
+                views: a['views'],
+                url: urlServer);
+            result.add(art);
+          } else if (category == '*' &&
+              a['language'] == lang.toUpperCase() &&
+              a['country'] == country) {
+            Article art = Article(
+                article_id: a['article_id'],
+                category_id: a['category_id'],
+                user_id: a['user_id'],
+                user_name: a['user_name'],
+                title: a['title'],
+                preview_image: a['preview_image'],
+                content: contentList,
+                language: a['language'],
+                annex: a['annex'],
+                country: a['country'],
+                date: a['date'],
+                views: a['views'],
+                url: urlServer);
+            result.add(art);
+          }
+        }
+        return result;
+      } else {
+        print('File does not exist!');
+        return result;
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+      return result;
+    } finally {
+      isCharging = false;
+      notifyListeners();
     }
-  } catch (e) {
-    throw Exception('Failed to download image: $e');
-  } finally {
-    // Close the client to prevent memory leak
-    client.close();
   }
-}
 
+  static Future<String> downloadImage(String imageUrl) async {
+    // Create the http client
+    var client = http.Client();
+
+    try {
+      // Make the HTTP request to download the image
+      var response = await client
+          .get(Uri.parse("https://minarai.ieti.site:443" + imageUrl));
+      if (response.statusCode == 200) {
+        // Get the directory to save the image
+        var directory = await getApplicationDocumentsDirectory();
+        var imagePath =
+            path.join(directory.path, saveFolder, path.basename(imageUrl));
+
+        // Create the folder if it doesn't exist
+        await Directory(path.dirname(imagePath)).create(recursive: true);
+
+        // Write the image to a file
+        var file = File(imagePath);
+        await file.writeAsBytes(response.bodyBytes);
+        // Return the path of the downloaded image
+        return imagePath;
+      } else {
+        throw Exception(
+            'Failed to download image: Status code ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to download image: $e');
+    } finally {
+      // Close the client to prevent memory leak
+      client.close();
+    }
+  }
 }

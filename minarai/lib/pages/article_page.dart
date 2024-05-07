@@ -35,7 +35,7 @@ class _ArticlePageState extends State<ArticlePage> {
               SizedBox(height: 10),
               Container(
                 constraints: BoxConstraints(
-                  maxHeight: 300, // Max height
+                  maxHeight: MediaQuery.of(context).size.width < 300 ? MediaQuery.of(context).size.width : 300, // Max height
                   maxWidth: 400, // Max width
                 ),
                 decoration: BoxDecoration(

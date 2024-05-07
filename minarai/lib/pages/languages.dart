@@ -23,6 +23,7 @@ class _LanguagePageState extends State<LanguagePage> {
     return Scaffold(
       backgroundColor: Config.backgroundColor,
       appBar: AppBar(
+        backgroundColor: Config.backgroundColor,
         actions: [
           GestureDetector(
             child: Container(

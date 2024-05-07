@@ -122,7 +122,6 @@ class SectionContainer extends StatelessWidget {
       child: infoList.length == 0 ? Container(child: Text('No files found', style: TextStyle(color: Config.secondaryFontColor),),) : ListView.builder(
         itemCount: infoList.length >= 2 ? 2 : infoList.length,
         itemBuilder: (context, index) {
-          print(infoList[index]);
           //Article Container
           return ArticleContainer(
             article: infoList[index],
