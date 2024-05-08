@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:minarai/enums/assets.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/other/article.dart';
+import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +27,7 @@ class _ArticlePageState extends State<ArticlePage> {
     final double displayWidth =
         contentWidth < Config.MAX_WIDTH ? contentWidth : Config.MAX_WIDTH;
 
+    print(MediaQuery.of(context).size.width);
     return Scaffold(
       backgroundColor: Config.backgroundColor,
       body: SafeArea(
@@ -35,8 +39,8 @@ class _ArticlePageState extends State<ArticlePage> {
               SizedBox(height: 10),
               Container(
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.width < 300 ? MediaQuery.of(context).size.width : 300, // Max height
-                  maxWidth: 400, // Max width
+                  maxHeight: 300, // Max height
+                  maxWidth:  MediaQuery.of(context).size.width < 400 ? MediaQuery.of(context).size.width * 0.9 : 400, // Max width
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20), // Border radius
@@ -49,7 +53,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(seconds: 1),
                     fadeOutDuration: Duration(seconds: 1),
-                  ) : Image.asset(widget.article.preview_image),
+                  ) : Image.file(File(widget.article.preview_image)),
                 ),
               ),
               SizedBox(height: 5),
@@ -81,7 +85,7 @@ class _ArticlePageState extends State<ArticlePage> {
                     ),
                     SizedBox(width: 10,),
                     Text('👁️${widget.article.views}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),),
-                    Text('     user:${widget.article.user_name}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
+                    Text('     ${UiTextManager.uiT.ui['art_author_${data.language}']}: ${widget.article.user_name}', style: TextStyle(color: Config.fontText, fontSize: Config.hMini),)
                   ],
                 ),
               ),

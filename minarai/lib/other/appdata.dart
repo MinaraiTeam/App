@@ -247,7 +247,7 @@ class AppData with ChangeNotifier {
       return Center(
         child: Container(
           constraints: BoxConstraints(
-            maxHeight: 300, // Max height
+            maxHeight: connectMode ? 300 : 10, // Max height
             maxWidth: 300, // Max width
           ),
           decoration: BoxDecoration(

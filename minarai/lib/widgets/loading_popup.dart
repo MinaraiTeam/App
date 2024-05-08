@@ -21,7 +21,7 @@ class _ChargingPopupState extends State<ChargingPopup> {
 
   void maybeShowDialog() {
     if (mounted) {
-      var appData = Provider.of<AppData>(context, listen: false);
+      AppData appData = Provider.of<AppData>(context, listen: false);
       if (appData.isCharging) {
         Future.microtask(() => showDialogIfCurrent(context, appData));
       }

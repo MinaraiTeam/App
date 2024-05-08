@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/assets.dart';
@@ -47,8 +49,8 @@ class ArticleContainer extends StatelessWidget {
                     fit: BoxFit.cover,
                     fadeInDuration: Duration(seconds: 1),
                     fadeOutDuration: Duration(seconds: 1),
-                  ) : Image.asset(
-                    article.preview_image,
+                  ) : Image.file(
+                    File(article.preview_image),
                     fit: BoxFit.cover,
                   ),
                 ),

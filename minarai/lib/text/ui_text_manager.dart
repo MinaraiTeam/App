@@ -37,6 +37,8 @@ class UiTextManager {
     //Errors
     ui['filter_error_es'] = "Filtro no disponible en modo sin conexión.";
     ui['filter_error_jp'] = "オフラインモードではフィルターが利用できません";
-
+    //Articles
+    ui['art_author_es'] = 'Autor';
+    ui['art_author_jp'] = '著者';
   }
 }
