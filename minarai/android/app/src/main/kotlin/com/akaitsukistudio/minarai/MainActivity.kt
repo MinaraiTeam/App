@@ -1,4 +1,4 @@
-package com.example.minarai
+package com.akaitsukistudio.minarai
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -7,6 +7,7 @@ import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/enums/theme_colors.dart';
 import 'package:minarai/other/appdata.dart';
+import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,10 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
           child: Container(
               color: Colors.transparent, 
               child: Icon(Icons.arrow_back_ios, weight: Config.iconW, color: CupertinoColors.activeBlue,)),
-          onTap: () => data.changePage(AppPages.home),
+          onTap: () { 
+            data.changePage(AppPages.home);
+            data.poblateArticleList();
+          },
         ),
       ),
       body: Column(
@@ -58,7 +62,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Visual Configuration', style: TextStyle(fontSize: Config.h2, fontWeight: FontWeight.bold, color: Config.fontText),),
+                  Text(UiTextManager.uiT.ui['config_visual_${data.language}'], style: TextStyle(fontSize: Config.h2, fontWeight: FontWeight.bold, color: Config.fontText),),
                   SizedBox(height: 5,),
                   //Theme Picker
                   Container(
@@ -97,7 +101,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                         },
                       )),
                   SizedBox(height: 20,),
-                  Text('Others', style: TextStyle(fontSize: Config.h2, fontWeight: FontWeight.bold, color: Config.fontText),),
+                  Text(UiTextManager.uiT.ui['config_others_${data.language}'], style: TextStyle(fontSize: Config.h2, fontWeight: FontWeight.bold, color: Config.fontText),),
                   SizedBox(height: 5,),
                   DownloadArticlesButton(),
                   SizedBox(height: 5,),
@@ -139,7 +143,7 @@ class DownloadArticlesButton extends StatelessWidget {
         children: <Widget>[
           Icon(Icons.download, color: Config.backgroundColor), // Download icon
           SizedBox(width: 10), // Space between icon and text
-          Text('Download Articles'),
+          Text(UiTextManager.uiT.ui['config_download_${data.language}']),
         ],
       ),
     );
@@ -172,7 +176,7 @@ class DeleteDataButton extends StatelessWidget {
         children: <Widget>[
           Icon(Icons.delete, color: Config.fontText), // Download icon
           SizedBox(width: 10), // Space between icon and text
-          Text('Delete Data'),
+          Text(UiTextManager.uiT.ui['config_delete_${data.language}']),
         ],
       ),
     );

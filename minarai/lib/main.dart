@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:minarai/enums/app_pages.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/enums/theme_colors.dart';
@@ -15,12 +16,14 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
   //If its on mobile it will show the SplashScreen
   if (Platform.isIOS || Platform.isAndroid) {
-    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-    sleep(const Duration(seconds: 1));
-    FlutterNativeSplash.remove();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+    // sleep(const Duration(seconds: 1));
+    // FlutterNativeSplash.remove();
   } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     //WindowManager.instance.setMinimumSize(const Size(1200, 600));
   }

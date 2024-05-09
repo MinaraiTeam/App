@@ -11,9 +11,10 @@ import 'package:minarai/text/ui_text_manager.dart';
 import 'package:provider/provider.dart';
 
 class ArticleContainer extends StatelessWidget {
-  const ArticleContainer({super.key, required this.article});
+  const ArticleContainer({super.key, required this.article, required this.previousPage});
 
   final Article article;
+  final Widget previousPage;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class ArticleContainer extends StatelessWidget {
           )),
       onTap: () {
         data.selectedArticle = data.articleList.indexOf(article);
-        data.changeSubPage(ArticlePage(key: UniqueKey(), article: article));
+        data.changeSubPage(ArticlePage(key: UniqueKey(), article: article, previousPage: previousPage,));
 
         if(data.connectMode) {
           data.countView(article.article_id);

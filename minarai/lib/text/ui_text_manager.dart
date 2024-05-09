@@ -40,5 +40,17 @@ class UiTextManager {
     //Articles
     ui['art_author_es'] = 'Autor';
     ui['art_author_jp'] = '著者';
+    //Configuration
+    ui['config_visual_es'] = 'Configuración Visual';
+    ui['config_visual_jp'] = 'ビジュアル設定';
+    ui['config_others_es'] = 'Otros';
+    ui['config_others_jp'] = '他の';
+    ui['config_download_es'] = "Descargar Artículos";
+    ui['config_download_jp'] = "記事をダウンロード";
+    ui['config_delete_es'] = "Borrar Datos";
+    ui['config_delete_jp'] = "データを削除";
+    //Errors
+    ui['error_notfound_es'] = "No se han encontrado artículos";
+    ui['error_notfound_jp'] = "記事が見つかりません";
   }
 }

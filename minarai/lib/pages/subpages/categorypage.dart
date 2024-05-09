@@ -7,7 +7,7 @@ import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/article_container.dart';
 import 'package:minarai/widgets/filter_button.dart';
 import 'package:minarai/widgets/loading_popup.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; 
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({super.key});
@@ -16,38 +16,54 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AppData data = Provider.of<AppData>(context);
 
-    return Container(
-      padding: EdgeInsets.only(left: 16),
-      height: double.infinity,
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 10,
+    return Scaffold(
+      floatingActionButton: Align(
+        
+        alignment: Alignment.topLeft,
+        child: Container(
+          decoration: BoxDecoration(color: Config.backgroundColor.withOpacity(0.8),borderRadius: BorderRadius.all(Radius.circular(25))),
+          padding: EdgeInsets.only(top: 22, left: 10),
+          child: IconButton(
+            onPressed: () {
+              data.changeSubPage(Lobby(key: UniqueKey()));
+            }, 
+            icon: Icon(Icons.arrow_circle_left_outlined, color: Config.buttonColor, size: Config.iconW,)
           ),
-          Container(
-            child: TitleWidget(
-              data: data,
+        ),
+      ),
+      body: Container(
+        padding: EdgeInsets.only(left: 16),
+        height: double.infinity,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: data.articleList.length,
-                  itemBuilder: (context, index) {
-                    return ArticleContainer(article: data.articleList[index]);
-                  },
+            Container(
+              child: TitleWidget(
+                data: data,
+              ),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  child: data.articleList.length == 0 ? Container(child: Text(UiTextManager.uiT.ui['error_notfound_${data.language}'], style: TextStyle(color: Config.secondaryFontColor),),) : ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: data.articleList.length,
+                    itemBuilder: (context, index) {
+                      return ArticleContainer(article: data.articleList[index], previousPage: CategoryPage(),);
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-          ChargingPopup()
-        ],
+            ChargingPopup()
+          ],
+        ),
       ),
     );
   }
@@ -63,14 +79,10 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(left: 20),
       child: Row(
         children: [
-          IconButton(
-            onPressed: () {
-              data.changeSubPage(Lobby(key: UniqueKey(),));
-            }, 
-            icon: Icon(Icons.arrow_circle_left_outlined, color: Config.buttonColor)
-          ),
+          
           Text(
             UiTextManager.uiT.ui['categories_${data.language}']
                 [data.selectedCategory],

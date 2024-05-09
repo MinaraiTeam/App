@@ -64,7 +64,7 @@ class Lobby extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            SectionContainer(infoList: data.latestArticles),
+            SectionContainer(infoList: data.latestArticles, language: data.language,),
 
             //Most Viewed
             const SizedBox(
@@ -74,7 +74,7 @@ class Lobby extends StatelessWidget {
               section: "mostviewed",
               language: data.language,
             ),
-            SectionContainer(infoList: data.mostViewedArticles),
+            SectionContainer(infoList: data.mostViewedArticles, language: data.language,),
             const SizedBox(
               height: 24,
             ),
@@ -111,20 +111,23 @@ class SectionContainer extends StatelessWidget {
   const SectionContainer({
     super.key,
     required this.infoList,
+    required this.language
   });
 
   final List<Article> infoList;
+  final String language;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: infoList.length == 0 ? 100 : 300,
-      child: infoList.length == 0 ? Container(child: Text('No Articles found', style: TextStyle(color: Config.secondaryFontColor),),) : ListView.builder(
+      child: infoList.length == 0 ? Container(child: Text(UiTextManager.uiT.ui['error_notfound_$language'], style: TextStyle(color: Config.secondaryFontColor),),) : ListView.builder(
         itemCount: infoList.length >= 2 ? 2 : infoList.length,
         itemBuilder: (context, index) {
           //Article Container
           return ArticleContainer(
             article: infoList[index],
+            previousPage: Lobby(),
           );
         },
       ),

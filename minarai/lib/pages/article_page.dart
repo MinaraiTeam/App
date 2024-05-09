@@ -5,14 +5,17 @@ import 'package:minarai/enums/assets.dart';
 import 'package:minarai/enums/config.dart';
 import 'package:minarai/other/appdata.dart';
 import 'package:minarai/other/article.dart';
+import 'package:minarai/pages/subpages/categorypage.dart';
+import 'package:minarai/pages/subpages/lobby.dart';
 import 'package:minarai/text/ui_text_manager.dart';
 import 'package:minarai/widgets/loading_popup.dart';
 import 'package:provider/provider.dart';
 
 class ArticlePage extends StatefulWidget {
   final Article article;
+  final Widget previousPage;
 
-  const ArticlePage({super.key, required this.article});
+  const ArticlePage({super.key, required this.article, required this.previousPage});
 
   @override
   State<ArticlePage> createState() => _ArticlePageState();
@@ -27,8 +30,23 @@ class _ArticlePageState extends State<ArticlePage> {
     final double displayWidth =
         contentWidth < Config.MAX_WIDTH ? contentWidth : Config.MAX_WIDTH;
 
-    print(MediaQuery.of(context).size.width);
     return Scaffold(
+      floatingActionButton: Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          width: Config.iconW,
+          height: Config.iconY,
+          decoration: BoxDecoration(color: Config.backgroundColor.withOpacity(0.5),borderRadius: BorderRadius.all(Radius.circular(25))),
+          margin: EdgeInsets.only(top: 22, left: 20),
+          child: IconButton(
+            padding: EdgeInsets.all(0),
+            onPressed: () {
+              data.changeSubPage(widget.previousPage);
+            }, 
+            icon: Icon(Icons.arrow_circle_left_outlined, color: Config.buttonColor, size: Config.iconW,)
+          ),
+        ),
+      ),
       backgroundColor: Config.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -36,6 +54,7 @@ class _ArticlePageState extends State<ArticlePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              
               SizedBox(height: 10),
               Container(
                 constraints: BoxConstraints(
