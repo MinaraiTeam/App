@@ -162,7 +162,6 @@ class AppData with ChangeNotifier {
             'order': order,
             'orderBy': orderBy
           }));
-
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body)['data'];
 

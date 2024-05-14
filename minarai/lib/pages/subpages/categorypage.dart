@@ -17,12 +17,13 @@ class CategoryPage extends StatelessWidget {
     AppData data = Provider.of<AppData>(context);
 
     return Scaffold(
+      backgroundColor: Config.backgroundColor,
       floatingActionButton: Align(
         
         alignment: Alignment.topLeft,
         child: Container(
-          decoration: BoxDecoration(color: Config.backgroundColor.withOpacity(0.8),borderRadius: BorderRadius.all(Radius.circular(25))),
-          padding: EdgeInsets.only(top: 22, left: 10),
+          decoration: BoxDecoration(color: Config.backgroundColor.withOpacity(0.5),borderRadius: BorderRadius.all(Radius.circular(25))),
+          margin: EdgeInsets.only(top: 22, left: 9),
           child: IconButton(
             onPressed: () {
               data.changeSubPage(Lobby(key: UniqueKey()));
